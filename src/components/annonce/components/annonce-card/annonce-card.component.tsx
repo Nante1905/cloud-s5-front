@@ -5,9 +5,30 @@ import dayjs from "dayjs";
 import { useCallback } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Annonce } from "../../../../shared/types/Annonce";
 import "./annonce-card.component.scss";
 
-const AnnonceCard = () => {
+interface AnnonceCardProps {
+  annonce: Annonce;
+}
+
+const AnnonceCard = (props: AnnonceCardProps) => {
+  const annonce = props.annonce;
+
+  annonce.photos = [
+    {
+      url: "/images/voiture1.jpg",
+    },
+    {
+      url: "/images/mercedes5.jpg",
+    },
+    {
+      url: "/images/voiture2.jpg",
+    },
+    {
+      url: "/images/voiture1.jpg",
+    },
+  ];
   const parseDate = useCallback((date: string) => {
     const day = dayjs(date);
     if (day.isSame(new Date())) {
@@ -30,29 +51,24 @@ const AnnonceCard = () => {
               `${current}/${total}`
             }
           >
-            <div>
-              <img src="/images/voiture1.jpg" />
-            </div>
-            <div>
-              <img src="/images/mercedes5.jpg" />
-            </div>
-            <div>
-              <img src="/images/voiture2.jpg" />
-            </div>
-            <div>
-              <img src="/images/voiture1.jpg" />
-            </div>
+            {annonce.photos.map((p, index) => (
+              <div key={`img_${index}`}>
+                <img src={p.url} />
+              </div>
+            ))}
           </Carousel>
         </div>
         <div className="annonce-info">
           <h2 className="annonce-title light no-margin">
-            Mercedes Benz - E class AMG
+            {annonce.voiture.modele.marque.nom}: {annonce.voiture.modele.nom}
           </h2>
           <div className="utilisateur">
-            <p className="no-margin">Rakoto Jean</p>
-            <small>{parseDate("2024-01-05T15:04:03")}</small>
+            <p className="no-margin">
+              {annonce.utilisateur.nom} {annonce.utilisateur.prenom}
+            </p>
+            <small>{parseDate(annonce.dateCreation)}</small>
           </div>
-          <h3 className="no-margin">12 000 000 MGA</h3>
+          <h3 className="no-margin">{annonce.prix.toLocaleString("fr")} MGA</h3>
         </div>
         <div className="favorite-icon">
           <Checkbox
