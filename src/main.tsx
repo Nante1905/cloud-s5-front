@@ -7,6 +7,7 @@ import { frFR } from "@mui/x-date-pickers";
 import "./index.css";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import LandingPage from "./components/landing-page/pages/landing-page.component.tsx";
+import ListeAnnonceRoot from "./components/annonce/pages/liste-annonce/liste-annonce.root.tsx";
 
 const theme = createTheme(
   {
@@ -29,6 +30,10 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/annonces",
+        element: <ListeAnnonceRoot />,
       },
     ],
   },
