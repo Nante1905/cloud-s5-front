@@ -31,16 +31,16 @@ const AnnonceCard = () => {
             }
           >
             <div>
-              <img src="/images/logo-fit.png" />
+              <img src="/images/voiture1.jpg" />
             </div>
             <div>
               <img src="/images/mercedes5.jpg" />
             </div>
             <div>
-              <img src="/images/logo-fit.png" />
+              <img src="/images/voiture2.jpg" />
             </div>
             <div>
-              <img src="/images/mercedes5.jpg" />
+              <img src="/images/voiture1.jpg" />
             </div>
           </Carousel>
         </div>

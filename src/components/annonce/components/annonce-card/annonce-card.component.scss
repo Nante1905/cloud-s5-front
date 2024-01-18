@@ -3,9 +3,11 @@
   flex-direction: column;
   cursor: pointer;
   user-select: none;
-  transition: all ease-in-out 0.5s !important;
+  transition: all ease-in-out 0.3s !important;
   &:hover {
-    transform: scale(1.1);
+    // transform: scale(1.1);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+      rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   }
   .annonce-info {
     text-align: left;
@@ -25,6 +27,10 @@
       height: 100%;
     }
     .carousel-root {
+      .control-dots {
+        margin: 0;
+        background: #ffffff69;
+      }
       .carousel-status {
         color: black;
         font-size: 1rem;
@@ -43,6 +49,11 @@
       }
       .thumbs {
         padding: 0;
+      }
+      .slide {
+        div {
+          height: 100%;
+        }
       }
     }
   }

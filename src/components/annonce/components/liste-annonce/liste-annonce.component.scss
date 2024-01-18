@@ -1,7 +1,7 @@
 .liste-annonce {
-    display: grid;
-    // grid-template-columns: 30% 30% 30%;
-    grid-template-columns: repeat(auto-fit, 20rem);
-    justify-content: center;
-    gap: 2rem;
+  margin-top: 5%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 20rem);
+  justify-content: center;
+  gap: 2rem;
 }

@@ -1,3 +1,41 @@
+@import "./variables.module.scss";
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
 .light {
-    font-weight: 500;
+  font-weight: 500;
+}
+
+.big {
+  font-size: 1.2rem;
+}
+
+.strong {
+  font-weight: bold;
+}
+.div-success {
+  background-color: $success !important;
+  color: white !important;
+}
+
+.div-danger {
+  background-color: $danger !important;
+  color: white !important;
+}
+.text-danger {
+  color: $danger !important;
 }

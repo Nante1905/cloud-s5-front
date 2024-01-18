@@ -1,0 +1,15 @@
+$theme-color: #317b93;
+$light-blue: #45BDC5;
+$success: #27b81f;
+$danger: #c93e3e;
+$warning: rgb(225, 167, 58);
+
+
+:export {
+  theme-color: $theme-color;
+  light-blue: $light-blue;
+  success: $success;
+  danger: $danger;
+  warning: $warning;
+}
+
