@@ -1,9 +1,33 @@
+@import "/src/shared/style/variables.module.scss";
+
 .liste-annonce {
   margin-top: 5%;
   display: grid;
   grid-template-columns: repeat(auto-fit, 20rem);
   justify-content: center;
   gap: 2rem;
+  .MuiBadge-root {
+    width: 100%;
+  }
+  .MuiBadge-badge {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .MuiBadge-root.success {
+    .MuiBadge-badge {
+      background-color: $success;
+    }
+  }
+  .MuiBadge-root.danger {
+    .MuiBadge-badge {
+      background-color: $danger;
+    }
+  }
+  .MuiBadge-root.warning {
+    .MuiBadge-badge {
+      background-color: $warning;
+    }
+  }
 }
 .p_end_scroll {
   padding: 1rem 0rem;
