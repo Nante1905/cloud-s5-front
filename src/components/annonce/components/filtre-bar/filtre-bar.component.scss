@@ -2,13 +2,14 @@
   background-color: aliceblue;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
-  padding: 2rem;
+  padding: 2rem 2rem 4rem;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
   z-index: 2;
   transition: all ease-in-out 0.5s;
+  overflow: scroll;
+  max-height: calc(100vh - 4rem);
   &.show {
     width: 20rem;
   }
