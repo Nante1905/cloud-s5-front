@@ -1,0 +1,20 @@
+.message-bulle {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem;
+  &_content {
+    border: 1px solid #000;
+    padding: 0.75rem;
+    padding-inline: 1rem;
+    border-radius: 20px;
+    max-width: calc(70% * 30 / 100);
+  }
+  &_image {
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+  }
+}
