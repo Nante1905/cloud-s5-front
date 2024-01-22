@@ -1,0 +1,19 @@
+.title {
+  margin-block: 1rem;
+  text-align: center;
+
+  h1 {
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 10%;
+      height: 5px;
+      background-color: rgb(146, 101, 224);
+      position: absolute;
+      left: 45%;
+      // bottom: 0;
+    }
+  }
+}

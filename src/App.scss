@@ -1,0 +1,29 @@
+.box-color {
+  aspect-ratio: 2/1;
+  width: 3rem;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #59a8c3d6;
+  border-radius: 6px;
+}
+
+.card {
+  padding: 2em;
+}
+
+
+.no-margin {
+  margin: 0;
+}

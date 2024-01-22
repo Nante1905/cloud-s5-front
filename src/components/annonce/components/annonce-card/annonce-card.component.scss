@@ -1,0 +1,60 @@
+.annonce-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  user-select: none;
+  transition: all ease-in-out 0.3s !important;
+  &:hover {
+    // transform: scale(1.1);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+      rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  }
+  .annonce-info {
+    text-align: left;
+    margin-top: 5%;
+    padding-inline: 2rem;
+  }
+  .favorite-icon {
+    text-align: right;
+    .MuiCheckbox-root.Mui-checked {
+      color: #ca4e4e !important;
+    }
+  }
+  .annonce-images {
+    padding: 1rem 1rem 0rem;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    .carousel-root {
+      .control-dots {
+        margin: 0;
+        background: #ffffff69;
+      }
+      .carousel-status {
+        color: black;
+        font-size: 1rem;
+        border-radius: 25%;
+        border-radius: px;
+        background: #9c9a9a6b;
+        padding-inline: 0.5rem;
+      }
+      .dot {
+        opacity: 0.6;
+        background: #2b2626;
+        &.selected {
+          background: rebeccapurple;
+          opacity: 1;
+        }
+      }
+      .thumbs {
+        padding: 0;
+      }
+      .slide {
+        div {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
