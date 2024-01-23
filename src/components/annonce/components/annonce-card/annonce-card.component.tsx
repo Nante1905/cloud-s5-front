@@ -5,11 +5,11 @@ import dayjs from "dayjs";
 import { useCallback } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Annonce } from "../../../../shared/types/Annonce";
+import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import "./annonce-card.component.scss";
 
 interface AnnonceCardProps {
-  annonce: Annonce;
+  annonce: AnnonceGeneral;
 }
 
 const AnnonceCard = (props: AnnonceCardProps) => {
@@ -50,8 +50,8 @@ const AnnonceCard = (props: AnnonceCardProps) => {
   return (
     <div>
       <Badge
-        badgeContent={`${annonce.voiture.etat}/10`}
-        className={renderClassName(annonce.voiture.etat)}
+        badgeContent={`${annonce.etat}/10`}
+        className={renderClassName(annonce.etat)}
       >
         <Card className="annonce-card">
           <div className="annonce-images">
@@ -73,14 +73,14 @@ const AnnonceCard = (props: AnnonceCardProps) => {
           </div>
           <div className="annonce-info">
             <h2 className="annonce-title light no-margin">
-              {annonce.voiture.modele.marque.nom}: {annonce.voiture.modele.nom}
+              {annonce.marque.nom}: {annonce.modele.nom}
             </h2>
-            <h2 className="light no-margin">Etat: {annonce.voiture.etat}/10</h2>
+            <h2 className="light no-margin">Etat: {annonce.etat}/10</h2>
             <div className="utilisateur">
               <p className="no-margin">
                 {annonce.utilisateur.nom} {annonce.utilisateur.prenom}
               </p>
-              <small>{parseDate(annonce.dateCreation)}</small>
+              <small>{parseDate(annonce.creation)}</small>
             </div>
             <h3 className="no-margin">
               {annonce.prix.toLocaleString("fr")} MGA

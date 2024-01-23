@@ -333,13 +333,14 @@ const FiltreBar = (props: FiltreProps) => {
                     ...state,
                     form: {
                       ...state.form,
-                      anneeMiseCirculation: (
-                        value?.year() as number
-                      ).toString(),
+                      anneeMiseCirculation:
+                        value?.year() == undefined
+                          ? ""
+                          : (value?.year() as number).toString(),
                     },
                   }));
                 }}
-                defaultValue={undefined}
+                defaultValue={null}
                 value={
                   state.form.anneeMiseCirculation !== ""
                     ? dayjs().year(Number(state.form.anneeMiseCirculation))

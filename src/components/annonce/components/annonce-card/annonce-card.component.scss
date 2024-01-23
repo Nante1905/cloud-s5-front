@@ -4,7 +4,7 @@
   cursor: pointer;
   user-select: none;
   transition: all ease-in-out 0.3s !important;
-  &:hover {
+  .container:hover {
     // transform: scale(1.1);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
       rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;

@@ -1,11 +1,11 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
-import { Annonce } from "../../../../shared/types/Annonce";
+import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import AnnonceCard from "../annonce-card/annonce-card.component";
 import "./liste-annonce.component.scss";
 
 interface ListeAnnonceProps {
-  annonces: Annonce[];
+  annonces: AnnonceGeneral[];
   fetchData: () => void;
   endScrolling: boolean;
 }

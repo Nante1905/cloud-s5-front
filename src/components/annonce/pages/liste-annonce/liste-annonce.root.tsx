@@ -11,7 +11,7 @@ import {
   findAllMarque,
   findAllModele,
 } from "../../../../shared/services/utilities.service";
-import { Annonce } from "../../../../shared/types/Annonce";
+import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import { Categorie } from "../../../../shared/types/Categorie";
 import { Marque } from "../../../../shared/types/Marque";
 import { Modele } from "../../../../shared/types/Modele";
@@ -26,7 +26,7 @@ interface ListeAnnonceRootState {
   showFilter: boolean;
   showBtnFilter: boolean;
   scrollPosition: number;
-  annonces: Annonce[];
+  annonces: AnnonceGeneral[];
   page: number;
   annonceLoading: boolean;
   annonceError: string;
@@ -81,7 +81,7 @@ const ListeAnnonceRoot = () => {
   const fetchAnnonce = (
     filtre: FiltreRequest = state.filtre,
     page: number = state.page,
-    annonces: Annonce[] = state.annonces
+    annonces: AnnonceGeneral[] = state.annonces
   ) => {
     console.log("fetch page ", page);
     // console.log("filtre ", filtre);
@@ -104,7 +104,7 @@ const ListeAnnonceRoot = () => {
         } else {
           setState((state) => ({
             ...state,
-            annonces: [...annonces, ...(res.data?.data as Annonce[])],
+            annonces: [...annonces, ...(res.data?.data as AnnonceGeneral[])],
             annonceLoading: false,
             page: state.page + 1,
             endScrolling: response.data.length < TAILLE_PAGE,
