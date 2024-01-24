@@ -1,6 +1,6 @@
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import { Badge, Card, Checkbox } from "@mui/material";
+import { Badge, Card, Checkbox, Chip } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
@@ -140,7 +140,10 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                 ))}
               </Carousel>
             </div>
-            <div className="annonce-info">
+            <div
+              className={`annonce-info ${!props.likeable ? "padding" : ""} `}
+            >
+              <Chip label={"Status de l'annonce"} />
               <h2 className="annonce-title light no-margin">
                 {annonce.marque.nom}: {annonce.modele.nom}
               </h2>
@@ -154,8 +157,8 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                 {annonce.prix.toLocaleString("fr")} MGA
               </h3>
             </div>
-            <div className="favorite-icon">
-              {props.likeable && (
+            {props.likeable && (
+              <div className="favorite-icon">
                 <Checkbox
                   icon={<FavoriteBorder fontSize="large" />}
                   checkedIcon={<Favorite fontSize="large" />}
@@ -163,8 +166,8 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                   // defaultChecked={annonce.favori}
                   checked={annonce.favori}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </Card>
         </Badge>
       </div>

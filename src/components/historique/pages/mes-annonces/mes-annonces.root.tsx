@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
-import Title from "../../../shared/components/title/title.component";
-import { TAILLE_PAGE } from "../../../shared/constants/constants";
-import { getErrorMessage } from "../../../shared/services/api.service";
-import { AnnonceGeneral } from "../../../shared/types/Annonce";
-import { ApiResponse } from "../../../shared/types/api/ApiResponse";
-import ListeFavori from "../components/liste-favori.component";
-import { findAllFavori } from "../service/favori.service";
-import "./liste-favori.root.scss";
+import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
+import Title from "../../../../shared/components/title/title.component";
+import { TAILLE_PAGE } from "../../../../shared/constants/constants";
+import { getErrorMessage } from "../../../../shared/services/api.service";
+import { AnnonceGeneral } from "../../../../shared/types/Annonce";
+import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
+import MesAnnonces from "../../components/mes-annonces.component";
+import { findMyAnnonces } from "../../service/historique.service";
 
-interface ListeFavoriRootState {
+interface MesAnnoncesRootState {
   annonces: AnnonceGeneral[];
   errorMessage: string;
   openError: boolean;
@@ -17,7 +16,7 @@ interface ListeFavoriRootState {
   page: number;
 }
 
-const initialState: ListeFavoriRootState = {
+const initialState: MesAnnoncesRootState = {
   annonces: [],
   errorMessage: "",
   openError: false,
@@ -25,19 +24,17 @@ const initialState: ListeFavoriRootState = {
   page: 1,
 };
 
-const ListeFavoriRoot = () => {
+const MesAnnoncesRoot = () => {
   const [state, setState] = useState(initialState);
   const initialized = useRef(false);
 
-  const fetchFavori = (
+  const fetchAnnonce = (
     page: number = state.page,
     annonces: AnnonceGeneral[] = state.annonces
   ) => {
     console.log("fetch page ", page);
-    // console.log("filtre ", filtre);
-    // console.log("annonces efa ao", annonces);
 
-    findAllFavori(page)
+    findMyAnnonces(page)
       .then((res) => {
         const response: ApiResponse = res.data;
         console.log(res);
@@ -80,7 +77,7 @@ const ListeFavoriRoot = () => {
     // TODO: remove in prod
     if (initialized.current == false) {
       console.log("sending requests");
-      fetchFavori();
+      fetchAnnonce();
       initialized.current = true;
     }
     window.history.scrollRestoration = "manual";
@@ -89,10 +86,10 @@ const ListeFavoriRoot = () => {
   return (
     <>
       <div>
-        <Title>Vos favoris</Title>
-        <ListeFavori
+        <Title>Vos annonces</Title>
+        <MesAnnonces
           annonces={state.annonces}
-          fetchData={fetchFavori}
+          fetchData={fetchAnnonce}
           endScrolling={state.endScrolling}
         />
       </div>
@@ -110,4 +107,4 @@ const ListeFavoriRoot = () => {
   );
 };
 
-export default ListeFavoriRoot;
+export default MesAnnoncesRoot;

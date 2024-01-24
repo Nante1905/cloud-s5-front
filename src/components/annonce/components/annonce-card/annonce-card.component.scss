@@ -13,6 +13,9 @@
     text-align: left;
     margin-top: 5%;
     padding-inline: 2rem;
+    &.padding {
+      padding-bottom: 2rem;
+    }
   }
   .favorite-icon {
     text-align: right;
