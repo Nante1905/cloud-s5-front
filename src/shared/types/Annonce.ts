@@ -34,4 +34,5 @@ export interface AnnonceGeneral {
     utilisateur: Utilisateur,
     photos: Photo[],
     etat: number
+    favori: boolean
 }

@@ -2,19 +2,40 @@ import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import { Badge, Card, Checkbox } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
+import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
+import { getErrorMessage } from "../../../../shared/services/api.service";
 import { AnnonceGeneral } from "../../../../shared/types/Annonce";
+import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
+import { toggleFavori } from "../../service/annonce.service";
 import "./annonce-card.component.scss";
 
 interface AnnonceCardProps {
   annonce: AnnonceGeneral;
 }
 
+interface AnnonceCardState {
+  openError: boolean;
+  error: string;
+  openSuccess: boolean;
+  success: string;
+}
+
+const initialState: AnnonceCardState = {
+  openError: false,
+  error: "",
+  openSuccess: false,
+  success: "",
+};
+
 const AnnonceCard = (props: AnnonceCardProps) => {
   const annonce = props.annonce;
+  const [state, setState] = useState(initialState);
 
+  // TODO: alana ito
   annonce.photos = [
     {
       url: "/images/voiture1.jpg",
@@ -47,54 +68,122 @@ const AnnonceCard = (props: AnnonceCardProps) => {
     return "danger";
   }, []);
 
+  const onToggleLike = useCallback(() => {
+    const lastFavori = annonce.favori;
+    toggleFavori(annonce.id)
+      .then((res) => {
+        const response: ApiResponse = res.data;
+
+        if (response.ok) {
+          setState((state) => ({
+            ...state,
+            success: response.message,
+            openSuccess: true,
+          }));
+          annonce.favori = !annonce.favori;
+        } else {
+          setState((state) => ({
+            ...state,
+            error: response.err,
+            openError: true,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+
+        let errorMessage = "";
+        if (err.response.status == 403) {
+          errorMessage = "Connectez vous pour mettre une annonce en favori.";
+        } else if (
+          !err.response.data.err ||
+          err.response.data.err == "" ||
+          err.response.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+        setState((state) => ({
+          ...state,
+          error: errorMessage,
+          openError: true,
+        }));
+      });
+  }, []);
+
   return (
-    <div>
-      <Badge
-        badgeContent={`${annonce.etat}/10`}
-        className={renderClassName(annonce.etat)}
-      >
-        <Card className="annonce-card">
-          <div className="annonce-images">
-            {/* <img src="/images/logo-fit.png" alt="" /> */}
-            <Carousel
-              showArrows={false}
-              axis="horizontal"
-              emulateTouch={true}
-              statusFormatter={(current: number, total: number) =>
-                `${current}/${total}`
-              }
-            >
-              {annonce.photos.map((p, index) => (
-                <div key={`img_${index}`}>
-                  <img src={p.url} />
-                </div>
-              ))}
-            </Carousel>
-          </div>
-          <div className="annonce-info">
-            <h2 className="annonce-title light no-margin">
-              {annonce.marque.nom}: {annonce.modele.nom}
-            </h2>
-            <h2 className="light no-margin">Etat: {annonce.etat}/10</h2>
-            <div className="utilisateur">
-              <p className="no-margin">
-                {annonce.utilisateur.nom} {annonce.utilisateur.prenom}
-              </p>
-              <small>{parseDate(annonce.creation)}</small>
+    <>
+      <div>
+        <Badge
+          badgeContent={`${annonce.etat}/10`}
+          className={renderClassName(annonce.etat)}
+        >
+          <Card className="annonce-card">
+            <div className="annonce-images">
+              {/* <img src="/images/logo-fit.png" alt="" /> */}
+              <Carousel
+                showArrows={false}
+                axis="horizontal"
+                emulateTouch={true}
+                statusFormatter={(current: number, total: number) =>
+                  `${current}/${total}`
+                }
+              >
+                {annonce.photos.map((p, index) => (
+                  <div key={`img_${index}`}>
+                    <img src={p.url} />
+                  </div>
+                ))}
+              </Carousel>
             </div>
-            <h3 className="no-margin">
-              {annonce.prix.toLocaleString("fr")} MGA
-            </h3>
-          </div>
-          <div className="favorite-icon">
-            <Checkbox
-              icon={<FavoriteBorder fontSize="large" />}
-              checkedIcon={<Favorite fontSize="large" />}
-            />
-          </div>
-        </Card>
-      </Badge>
-    </div>
+            <div className="annonce-info">
+              <h2 className="annonce-title light no-margin">
+                {annonce.marque.nom}: {annonce.modele.nom}
+              </h2>
+              <div className="utilisateur">
+                <p className="no-margin">
+                  {annonce.utilisateur.nom} {annonce.utilisateur.prenom}
+                </p>
+                <small>{parseDate(annonce.creation)}</small>
+              </div>
+              <h3 className="no-margin">
+                {annonce.prix.toLocaleString("fr")} MGA
+              </h3>
+            </div>
+            <div className="favorite-icon">
+              <Checkbox
+                icon={<FavoriteBorder fontSize="large" />}
+                checkedIcon={<Favorite fontSize="large" />}
+                onChange={onToggleLike}
+                // defaultChecked={annonce.favori}
+                checked={annonce.favori}
+              />
+            </div>
+          </Card>
+        </Badge>
+      </div>
+      <ErrorSnackBar
+        open={state.openError}
+        onClose={() =>
+          setState(() => ({
+            ...state,
+            openError: false,
+          }))
+        }
+        error={state.error}
+      />
+      <SuccessSnackBar
+        open={state.openSuccess}
+        onClose={() =>
+          setState(() => ({
+            ...state,
+            openSuccess: false,
+          }))
+        }
+        message={state.success}
+      />
+    </>
   );
 };
 

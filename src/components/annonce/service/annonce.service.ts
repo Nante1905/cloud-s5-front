@@ -10,3 +10,5 @@ export const findAnnonceValideParPage = (page: number) =>
 
 export const filtreAnnonce = (filtre: FiltreRequest, page: number) =>
   axios.post(`${URL_API}/annonces/find?page=${page}&taille=${TAILLE_PAGE}`, filtre);
+
+export const toggleFavori = (idAnnonce: number) => axios.put(`${URL_API}/annonces/${idAnnonce}/toggle_favoris`)
