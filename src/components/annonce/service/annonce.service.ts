@@ -1,8 +1,8 @@
 import axios from "axios";
 import { URL_API } from "../../../shared/env/env";
 import { FiltreRequest } from "../types/filtre.type";
+import { TAILLE_PAGE } from "../../../shared/constants/constants";
 
-export const TAILLE_PAGE = 4;
 
 // TODO: ovaina valide fa miandry endpoint ho vita
 export const findAnnonceValideParPage = (page: number) =>

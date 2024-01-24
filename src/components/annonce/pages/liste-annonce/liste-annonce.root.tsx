@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import Title from "../../../../shared/components/title/title.component";
+import { TAILLE_PAGE } from "../../../../shared/constants/constants";
 import { getErrorMessage } from "../../../../shared/services/api.service";
 import {
   findAllCategorie,
@@ -18,7 +19,7 @@ import { Modele } from "../../../../shared/types/Modele";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import FiltreBar from "../../components/filtre-bar/filtre-bar.component";
 import ListeAnnonce from "../../components/liste-annonce/liste-annonce.component";
-import { TAILLE_PAGE, filtreAnnonce } from "../../service/annonce.service";
+import { filtreAnnonce } from "../../service/annonce.service";
 import { FiltreRequest, initialFiltre } from "../../types/filtre.type";
 import "./liste-annonce.root.scss";
 
@@ -132,7 +133,7 @@ const ListeAnnonceRoot = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", () => handleScroll(state.scrollPosition));
-    // juste pour éviter qu'USeEffect se réexecute en env dev fa jsp en prod otrn tsy manao check intsony React.StrictMode
+    // TODO: juste pour éviter qu'USeEffect se réexecute en env dev fa jsp en prod otrn tsy manao check intsony React.StrictMode
     if (initialized.current == false) {
       console.log("sending request");
       fetchAnnonce();

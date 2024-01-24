@@ -9,3 +9,5 @@ export const API_ERROR_MESSAGE = [
         message: "Requête mal formée.",
     },
 ];
+
+export const TAILLE_PAGE = 4;

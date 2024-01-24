@@ -15,6 +15,7 @@ import "./annonce-card.component.scss";
 
 interface AnnonceCardProps {
   annonce: AnnonceGeneral;
+  likeable: boolean;
 }
 
 interface AnnonceCardState {
@@ -69,47 +70,49 @@ const AnnonceCard = (props: AnnonceCardProps) => {
   }, []);
 
   const onToggleLike = useCallback(() => {
-    const lastFavori = annonce.favori;
-    toggleFavori(annonce.id)
-      .then((res) => {
-        const response: ApiResponse = res.data;
+    if (props.likeable) {
+      const lastFavori = annonce.favori;
+      toggleFavori(annonce.id)
+        .then((res) => {
+          const response: ApiResponse = res.data;
 
-        if (response.ok) {
+          if (response.ok) {
+            setState((state) => ({
+              ...state,
+              success: response.message,
+              openSuccess: true,
+            }));
+            annonce.favori = !annonce.favori;
+          } else {
+            setState((state) => ({
+              ...state,
+              error: response.err,
+              openError: true,
+            }));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+
+          let errorMessage = "";
+          if (err.response.status == 403) {
+            errorMessage = "Connectez vous pour mettre une annonce en favori.";
+          } else if (
+            !err.response.data.err ||
+            err.response.data.err == "" ||
+            err.response.data.err == null
+          ) {
+            errorMessage = getErrorMessage(err.code);
+          } else {
+            errorMessage = err.response.data.err;
+          }
           setState((state) => ({
             ...state,
-            success: response.message,
-            openSuccess: true,
-          }));
-          annonce.favori = !annonce.favori;
-        } else {
-          setState((state) => ({
-            ...state,
-            error: response.err,
+            error: errorMessage,
             openError: true,
           }));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-
-        let errorMessage = "";
-        if (err.response.status == 403) {
-          errorMessage = "Connectez vous pour mettre une annonce en favori.";
-        } else if (
-          !err.response.data.err ||
-          err.response.data.err == "" ||
-          err.response.data.err == null
-        ) {
-          errorMessage = getErrorMessage(err.code);
-        } else {
-          errorMessage = err.response.data.err;
-        }
-        setState((state) => ({
-          ...state,
-          error: errorMessage,
-          openError: true,
-        }));
-      });
+        });
+    }
   }, []);
 
   return (
@@ -152,13 +155,15 @@ const AnnonceCard = (props: AnnonceCardProps) => {
               </h3>
             </div>
             <div className="favorite-icon">
-              <Checkbox
-                icon={<FavoriteBorder fontSize="large" />}
-                checkedIcon={<Favorite fontSize="large" />}
-                onChange={onToggleLike}
-                // defaultChecked={annonce.favori}
-                checked={annonce.favori}
-              />
+              {props.likeable && (
+                <Checkbox
+                  icon={<FavoriteBorder fontSize="large" />}
+                  checkedIcon={<Favorite fontSize="large" />}
+                  onChange={onToggleLike}
+                  // defaultChecked={annonce.favori}
+                  checked={annonce.favori}
+                />
+              )}
             </div>
           </Card>
         </Badge>

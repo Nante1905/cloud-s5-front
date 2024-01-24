@@ -7,6 +7,7 @@ import App from "./App.tsx";
 
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import ListeAnnonceRoot from "./components/annonce/pages/liste-annonce/liste-annonce.root.tsx";
+import ListeFavoriRoot from "./components/favori/pages/liste-favori.root.tsx";
 import LandingPage from "./components/landing-page/pages/landing-page.component.tsx";
 import "./index.css";
 import { store } from "./shared/store/store.ts";
@@ -36,6 +37,10 @@ const routes = createBrowserRouter([
       {
         path: "/annonces",
         element: <ListeAnnonceRoot />,
+      },
+      {
+        path: "/favoris",
+        element: <ListeFavoriRoot />,
       },
     ],
   },
