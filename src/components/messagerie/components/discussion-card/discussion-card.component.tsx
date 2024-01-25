@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Discussion } from "../../../../shared/types/Discussion";
 import "./discussion-card.component.scss";
 
@@ -13,11 +14,17 @@ const DiscussionCardComponent = (props: DiscussionCardComponentProps) => {
     height: props.heigth ? props.heigth : "initial",
   };
 
+  const discussionCard = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="discussion-card" style={containerStyle}>
-      <div className="discussion-card_image">
-        <img src="https://picsum.photos/200/300" alt="photo de profil" />
-      </div>
+    <div
+      className="discussion-card"
+      style={containerStyle}
+      ref={discussionCard}
+      onFocus={() => {
+        discussionCard?.current?.classList?.toggle("active");
+      }}
+    >
       <div className="discussion-card_content">
         <div className="discussion-card_title">
           <h3>Rakoto Jean</h3>

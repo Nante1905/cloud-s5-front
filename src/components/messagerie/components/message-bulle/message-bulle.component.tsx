@@ -1,17 +1,26 @@
+import { CSSProperties } from "react";
+import { Message } from "../../../../shared/types/Message";
 import "./message-bulle.component.scss";
 
 interface MessageBulleComponentProps {
   right?: boolean;
   id?: string;
+  message: Message;
 }
 
 const MessageBulleComponent = (props: MessageBulleComponentProps) => {
+  const style: CSSProperties = {
+    justifyContent: props.right ? "flex-end" : "flex-start",
+  };
+
   return (
-    <div className="message-bulle" id={props.id ? props.id : ""}>
-      <div className="message-bulle_image">
-        <img src="https://picsum.photos/200/300" alt="" />
-      </div>
-      <div className="message-bulle_content">
+    <div className="message-bulle" id={props.id ? props.id : ""} style={style}>
+      <div className="message-bulle_image">22:00</div>
+      <div
+        className={
+          props.right ? "message-bulle_content right" : "message-bulle_content"
+        }
+      >
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat est quam
         ratione illum ad omnis, ipsa harum dicta laboriosam totam adipisci
         praesentium, labore nam ea. Fuga mollitia nam laudantium distinctio hic

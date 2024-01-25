@@ -1,0 +1,18 @@
+.message-container-root {
+  padding-inline: 3%;
+  padding-top: 5%;
+
+  &_header {
+    position: fixed;
+    width: 100%;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 31%,
+      rgba(255, 255, 255, 0.8520658263305322) 68%,
+      rgba(255, 255, 255, 0.375875350140056) 100%
+    );
+    top: 0;
+  }
+}

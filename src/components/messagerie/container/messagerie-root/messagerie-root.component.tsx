@@ -1,28 +1,24 @@
 import { useEffect } from "react";
 import DiscussionListComponent from "../../components/discussion-list/discussion.component";
-import MessageBulleComponent from "../../components/message-bulle/message-bulle.component";
+import MessageInputComponent from "../../components/message-input/message-input.component";
+import MessageContainerRoot from "../message-container/message-container-root.component";
 import "./messagerie-root.component.scss";
 
 const MessagerieRoot = () => {
-  window.history.scrollRestoration = "manual";
+  const container = document.getElementById("bottom");
   useEffect(() => {
-    const lastMessage = document.getElementById("bottom");
-    if (lastMessage) {
-      lastMessage.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
+    container?.scrollIntoView({ behavior: "smooth" });
+  }, [container]);
 
   return (
     <div className="messagerie-root">
       <DiscussionListComponent />
+
       <div className="messagerie-root_messages-container">
-        <MessageBulleComponent />
-        <MessageBulleComponent />
-        <MessageBulleComponent />
-        <MessageBulleComponent />
-        <MessageBulleComponent />
-        <MessageBulleComponent />
-        <div id="bottom">test</div>
+        <MessageContainerRoot />
+      </div>
+      <div className="messagerie-root_input-container">
+        <MessageInputComponent />
       </div>
     </div>
   );

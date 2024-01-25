@@ -1,9 +1,19 @@
 .discussion-card {
-  border: 1px solid black;
+  &.active {
+    background-color: #2476947f;
+  }
+  // border: 1px solid black;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 2rem;
   padding: 1rem;
+  border-radius: 20px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #2476947f;
+  }
 
   &_image {
     img {
