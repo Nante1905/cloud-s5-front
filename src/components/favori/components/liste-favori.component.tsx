@@ -1,16 +1,16 @@
 import InfiniteScroll from "react-infinite-scroll-component";
-import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
-import { AnnonceGeneral } from "../../../../shared/types/Annonce";
-import AnnonceCard from "../annonce-card/annonce-card.component";
-import "./liste-annonce.component.scss";
+import AppLoaderComponent from "../../../shared/components/loader/app-loader.component";
+import { AnnonceGeneral } from "../../../shared/types/Annonce";
+import AnnonceCard from "../../annonce/components/annonce-card/annonce-card.component";
+import "./liste-favori.component.scss";
 
-interface ListeAnnonceProps {
+interface ListeFavoriProps {
   annonces: AnnonceGeneral[];
   fetchData: () => void;
   endScrolling: boolean;
 }
 
-const ListeAnnonce = (props: ListeAnnonceProps) => {
+const ListeFavori = (props: ListeFavoriProps) => {
   return (
     <>
       <InfiniteScroll
@@ -47,4 +47,4 @@ const ListeAnnonce = (props: ListeAnnonceProps) => {
   );
 };
 
-export default ListeAnnonce;
+export default ListeFavori;

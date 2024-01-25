@@ -1,16 +1,15 @@
 import InfiniteScroll from "react-infinite-scroll-component";
-import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
-import { AnnonceGeneral } from "../../../../shared/types/Annonce";
-import AnnonceCard from "../annonce-card/annonce-card.component";
-import "./liste-annonce.component.scss";
+import AppLoaderComponent from "../../../shared/components/loader/app-loader.component";
+import { AnnonceGeneral } from "../../../shared/types/Annonce";
+import AnnonceCard from "../../annonce/components/annonce-card/annonce-card.component";
 
-interface ListeAnnonceProps {
+interface MesAnnoncesProps {
   annonces: AnnonceGeneral[];
   fetchData: () => void;
   endScrolling: boolean;
 }
 
-const ListeAnnonce = (props: ListeAnnonceProps) => {
+const MesAnnonces = (props: MesAnnoncesProps) => {
   return (
     <>
       <InfiniteScroll
@@ -35,7 +34,7 @@ const ListeAnnonce = (props: ListeAnnonceProps) => {
             <AnnonceCard
               key={`${annonce.reference}-${index}`}
               annonce={annonce}
-              likeable
+              likeable={false}
             />
           ))}
           {props.endScrolling && props.annonces.length == 0 && (
@@ -47,4 +46,4 @@ const ListeAnnonce = (props: ListeAnnonceProps) => {
   );
 };
 
-export default ListeAnnonce;
+export default MesAnnonces;
