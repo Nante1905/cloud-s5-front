@@ -1,7 +1,12 @@
+import { Discussion } from "../../../../shared/types/Discussion";
 import DiscussionCardComponent from "../discussion-card/discussion-card.component";
 import "./discussion.component.scss";
 
-const DiscussionListComponent = () => {
+interface DiscussionListComponentProps {
+  discussions: Discussion[];
+}
+
+const DiscussionListComponent = (props: DiscussionListComponentProps) => {
   return (
     <div className="discussion-list">
       <div className="discussion-list_header">
@@ -10,12 +15,9 @@ const DiscussionListComponent = () => {
         </div>
       </div>
       <div className="discussion-list_body">
-        <DiscussionCardComponent />
-        <DiscussionCardComponent />
-        <DiscussionCardComponent />
-        <DiscussionCardComponent />
-        <DiscussionCardComponent />
-        <DiscussionCardComponent />
+        {props.discussions?.map((discussion, index) => (
+          <DiscussionCardComponent key={index} discussion={discussion} />
+        ))}
         <DiscussionCardComponent />
         <DiscussionCardComponent />
       </div>

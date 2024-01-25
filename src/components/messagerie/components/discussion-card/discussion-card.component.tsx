@@ -27,7 +27,11 @@ const DiscussionCardComponent = (props: DiscussionCardComponentProps) => {
     >
       <div className="discussion-card_content">
         <div className="discussion-card_title">
-          <h3>Rakoto Jean</h3>
+          <h3>
+            {props.discussion?.droite.prenom +
+              " " +
+              props.discussion?.droite.nom}
+          </h3>
         </div>
         <div className="message-preview">
           <p>Cette article est-il toujours disponible</p>

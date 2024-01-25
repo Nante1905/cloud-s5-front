@@ -7,6 +7,8 @@ import App from "./App.tsx";
 
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import ListeAnnonceRoot from "./components/annonce/pages/liste-annonce/liste-annonce.root.tsx";
+import ListeFavoriRoot from "./components/favori/pages/liste-favori.root.tsx";
+import MesAnnoncesRoot from "./components/historique/pages/mes-annonces/mes-annonces.root.tsx";
 import LandingPage from "./components/landing-page/pages/landing-page.component.tsx";
 import MessagerieRoot from "./components/messagerie/container/messagerie-root/messagerie-root.component.tsx";
 import "./index.css";
@@ -41,6 +43,14 @@ const routes = createBrowserRouter([
       {
         path: "/messagerie",
         element: <MessagerieRoot />,
+      },
+      {
+        path: "/favoris",
+        element: <ListeFavoriRoot />,
+      },
+      {
+        path: "/historique",
+        element: <MesAnnoncesRoot />,
       },
     ],
   },
