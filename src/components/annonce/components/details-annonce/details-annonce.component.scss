@@ -7,6 +7,18 @@
       padding: 0;
     }
   }
+  .img-container {
+    position: relative;
+  }
+  .liking-gif {
+    // width: 40% !important;
+    // width: 0%;
+    // &.action {
+    //   transition: all ease-in-out 1.2s;
+    //   width: 100%;
+    // }
+    left: 0 !important;
+  }
 }
 .card_annonce {
   width: 80%;

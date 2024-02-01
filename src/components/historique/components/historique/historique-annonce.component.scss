@@ -1,0 +1,22 @@
+.annonce_info {
+  .card {
+    width: fit-content;
+    padding-inline: 2rem;
+    margin: auto;
+    &_content {
+      padding: 0 !important;
+    }
+  }
+  p {
+    margin: 0;
+  }
+}
+.timeline {
+  p {
+    margin: 0;
+  }
+  &_connector {
+    height: 3rem !important;
+    width: 3px !important;
+  }
+}

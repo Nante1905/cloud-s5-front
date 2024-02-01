@@ -1,4 +1,5 @@
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
 import AppLoaderComponent from "../../../shared/components/loader/app-loader.component";
 import { AnnonceGeneral } from "../../../shared/types/Annonce";
 import AnnonceCard from "../../annonce/components/annonce-card/annonce-card.component";
@@ -10,6 +11,7 @@ interface MesAnnoncesProps {
 }
 
 const MesAnnonces = (props: MesAnnoncesProps) => {
+  const navigate = useNavigate();
   return (
     <>
       <InfiniteScroll
@@ -36,6 +38,7 @@ const MesAnnonces = (props: MesAnnoncesProps) => {
               annonce={annonce}
               likeable={false}
               showStatus={true}
+              onClick={() => navigate(`/annonces/${annonce.id}/historique`)}
             />
           ))}
           {props.endScrolling && props.annonces.length == 0 && (

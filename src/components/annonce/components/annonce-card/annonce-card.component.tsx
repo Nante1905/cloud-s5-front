@@ -1,7 +1,7 @@
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import { Badge, Card, Checkbox } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
@@ -17,6 +17,7 @@ interface AnnonceCardProps {
   annonce: AnnonceGeneral;
   likeable: boolean;
   showStatus: boolean;
+  onClick: () => void;
 }
 
 interface AnnonceCardState {
@@ -24,7 +25,7 @@ interface AnnonceCardState {
   error: string;
   openSuccess: boolean;
   success: string;
-  favori: boolean;
+  loadingLike: boolean;
 }
 
 const initialState: AnnonceCardState = {
@@ -32,18 +33,13 @@ const initialState: AnnonceCardState = {
   error: "",
   openSuccess: false,
   success: "",
-  favori: false,
+  loadingLike: false,
 };
 
 const AnnonceCard = (props: AnnonceCardProps) => {
   const annonce = props.annonce;
-  const [state, setState] = useState({
-    openError: false,
-    error: "",
-    openSuccess: false,
-    success: "",
-    favori: annonce.favori,
-  });
+  const lastFavori = useRef(annonce.favori);
+  const [state, setState] = useState<AnnonceCardState>(initialState);
 
   // TODO: alana ito
   annonce.photos = [
@@ -70,8 +66,25 @@ const AnnonceCard = (props: AnnonceCardProps) => {
     return "danger";
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setState((state) => ({
+        ...state,
+        loadingLike: false,
+      }));
+    }, 1500);
+  }, [state.loadingLike]);
+
   const onToggleLike = useCallback(() => {
     if (props.likeable) {
+      console.log("etat  taloha ", lastFavori);
+
+      if (lastFavori.current == false) {
+        setState((state) => ({
+          ...state,
+          loadingLike: true,
+        }));
+      }
       toggleFavori(annonce.id)
         .then((res) => {
           const response: ApiResponse = res.data;
@@ -81,8 +94,8 @@ const AnnonceCard = (props: AnnonceCardProps) => {
               ...state,
               success: response.message,
               openSuccess: true,
-              favori: !state.favori,
             }));
+            lastFavori.current = !lastFavori.current;
           } else {
             setState((state) => ({
               ...state,
@@ -122,7 +135,7 @@ const AnnonceCard = (props: AnnonceCardProps) => {
           badgeContent={`${annonce.etat}/10`}
           className={renderClassName(annonce.etat)}
         >
-          <Card className="annonce-card">
+          <Card className={`annonce-card ${annonce.id == 23 ? "liking" : ""}`}>
             <div className="annonce-images">
               {/* <img src="/images/logo-fit.png" alt="" /> */}
               <Carousel
@@ -140,8 +153,10 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                 ))}
               </Carousel>
             </div>
+
             <div
               className={`annonce-info ${!props.likeable ? "padding" : ""} `}
+              onClick={props.onClick}
             >
               {props.showStatus && (
                 <ChipStatusAnnonce status={annonce.status} />
@@ -166,11 +181,15 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                   checkedIcon={<Favorite fontSize="large" />}
                   onChange={onToggleLike}
                   // defaultChecked={annonce.favori}
-                  checked={state.favori}
+                  checked={lastFavori.current}
                 />
               </div>
             )}
           </Card>
+
+          <div className={`liking-gif ${state.loadingLike ? "action" : ""} `}>
+            <img src="/images/hearts-heart.gif" alt="" />
+          </div>
         </Badge>
       </div>
       <ErrorSnackBar

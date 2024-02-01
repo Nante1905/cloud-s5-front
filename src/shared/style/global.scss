@@ -27,6 +27,14 @@ a {
 .strong {
   font-weight: bold;
 }
+.div-primary {
+  background-color: $theme-color !important;
+  color: white !important;
+}
+.div-warning {
+  background-color: $warning !important;
+  color: white !important;
+}
 .div-success {
   background-color: $success !important;
   color: white !important;

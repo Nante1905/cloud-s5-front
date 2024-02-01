@@ -3,7 +3,7 @@
 import { Favorite, FavoriteBorder, Person } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
@@ -25,6 +25,7 @@ interface DetailsAnnonceState {
   openSuccess: boolean;
   successMessage: string;
   favori: boolean;
+  loadingLike: boolean;
 }
 
 const DetailsAnnonce = (props: DetailsAnnonceProps) => {
@@ -35,8 +36,11 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     openSuccess: false,
     successMessage: "",
     favori: annonce.favori,
+    loadingLike: false,
   };
   const [state, setState] = useState(initialState);
+  const lastLike = useRef(annonce.favori);
+  // TODO: ALANA ITO
   annonce.photos = [
     {
       url: "/images/voiture1.jpg",
@@ -52,7 +56,24 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     },
   ];
 
+  useEffect(() => {
+    setTimeout(() => {
+      setState((state) => ({
+        ...state,
+        loadingLike: false,
+      }));
+    }, 1500);
+  }, [state.loadingLike]);
+
   const onToggleLike = useCallback(() => {
+    console.log("toggle ", lastLike.current);
+
+    if (lastLike.current == false) {
+      setState((state) => ({
+        ...state,
+        loadingLike: true,
+      }));
+    }
     toggleFavori(annonce.id)
       .then((res) => {
         console.log(res);
@@ -66,6 +87,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             openSuccess: true,
             favori: !state.favori,
           }));
+          lastLike.current = !lastLike.current;
         } else {
           setState((state) => ({
             ...state,
@@ -118,6 +140,9 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             ))}
           </Carousel>
         )}
+        <div className={`liking-gif ${state.loadingLike ? "action" : ""} `}>
+          <img src="/images/hearts-heart.gif" alt="" />
+        </div>
       </div>
       <div className="info-container">
         <div className="card card_annonce">
