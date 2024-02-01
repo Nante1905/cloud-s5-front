@@ -1,0 +1,11 @@
+.chip {
+  &.success {
+    background-color: #93ce8ffa;
+  }
+  &.warning {
+    background-color: #e1ae50;
+  }
+  &.danger {
+    background-color: #e37070;
+  }
+}

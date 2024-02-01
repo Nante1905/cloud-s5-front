@@ -36,6 +36,7 @@ const ListeFavori = (props: ListeFavoriProps) => {
               key={`${annonce.reference}-${index}`}
               annonce={annonce}
               likeable
+              showStatus={true}
             />
           ))}
           {props.endScrolling && props.annonces.length == 0 && (

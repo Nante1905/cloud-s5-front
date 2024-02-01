@@ -1,10 +1,11 @@
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import { Badge, Card, Checkbox, Chip } from "@mui/material";
+import { Badge, Card, Checkbox } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
@@ -16,6 +17,7 @@ import "./annonce-card.component.scss";
 interface AnnonceCardProps {
   annonce: AnnonceGeneral;
   likeable: boolean;
+  showStatus: boolean;
 }
 
 interface AnnonceCardState {
@@ -51,6 +53,7 @@ const AnnonceCard = (props: AnnonceCardProps) => {
       url: "/images/voiture1.jpg",
     },
   ];
+
   const parseDate = useCallback((date: string) => {
     const day = dayjs(date);
     if (day.isSame(new Date())) {
@@ -71,7 +74,6 @@ const AnnonceCard = (props: AnnonceCardProps) => {
 
   const onToggleLike = useCallback(() => {
     if (props.likeable) {
-      const lastFavori = annonce.favori;
       toggleFavori(annonce.id)
         .then((res) => {
           const response: ApiResponse = res.data;
@@ -143,7 +145,9 @@ const AnnonceCard = (props: AnnonceCardProps) => {
             <div
               className={`annonce-info ${!props.likeable ? "padding" : ""} `}
             >
-              <Chip label={"Status de l'annonce"} />
+              {props.showStatus && (
+                <ChipStatusAnnonce status={annonce.status} />
+              )}
               <h2 className="annonce-title light no-margin">
                 {annonce.marque.nom}: {annonce.modele.nom}
               </h2>

@@ -36,6 +36,7 @@ const ListeAnnonce = (props: ListeAnnonceProps) => {
               key={`${annonce.reference}-${index}`}
               annonce={annonce}
               likeable
+              showStatus={false}
             />
           ))}
           {props.endScrolling && props.annonces.length == 0 && (
