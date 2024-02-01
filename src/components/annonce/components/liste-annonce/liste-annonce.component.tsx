@@ -1,4 +1,5 @@
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Link } from "react-router-dom";
 import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
 import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import AnnonceCard from "../annonce-card/annonce-card.component";
@@ -32,11 +33,9 @@ const ListeAnnonce = (props: ListeAnnonceProps) => {
       >
         <div className="liste-annonce">
           {props.annonces?.map((annonce, index) => (
-            <AnnonceCard
-              key={`${annonce.reference}-${index}`}
-              annonce={annonce}
-              likeable
-            />
+            <Link to={`${annonce.id}`} key={`${annonce.reference}-${index}`}>
+              <AnnonceCard annonce={annonce} likeable showStatus={false} />
+            </Link>
           ))}
           {props.endScrolling && props.annonces.length == 0 && (
             <p>Aucune annonce</p>

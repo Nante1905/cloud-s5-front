@@ -10,13 +10,15 @@ export interface Annonce {
     id: number,
     reference: string,
     description: string,
-    creation: string,
+    dateCreation: string,
     prix: number,
     commission: number,
     nbVues: number,
     utilisateur: Utilisateur,
     voiture: Voiture,
     photos: Photo[],
+    status: number,
+    favori: boolean
 }
 
 interface ModeleDTO {
@@ -34,5 +36,6 @@ export interface AnnonceGeneral {
     utilisateur: Utilisateur,
     photos: Photo[],
     etat: number
-    favori: boolean
+    favori: boolean,
+    status: number
 }

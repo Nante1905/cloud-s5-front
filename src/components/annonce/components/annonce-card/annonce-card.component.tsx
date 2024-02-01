@@ -1,21 +1,22 @@
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import { Badge, Card, Checkbox, Chip } from "@mui/material";
-import dayjs from "dayjs";
+import { Badge, Card, Checkbox } from "@mui/material";
 import { useCallback, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
 import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
-import { toggleFavori } from "../../service/annonce.service";
+import { parseDate, toggleFavori } from "../../service/annonce.service";
 import "./annonce-card.component.scss";
 
 interface AnnonceCardProps {
   annonce: AnnonceGeneral;
   likeable: boolean;
+  showStatus: boolean;
 }
 
 interface AnnonceCardState {
@@ -23,6 +24,7 @@ interface AnnonceCardState {
   error: string;
   openSuccess: boolean;
   success: string;
+  favori: boolean;
 }
 
 const initialState: AnnonceCardState = {
@@ -30,11 +32,18 @@ const initialState: AnnonceCardState = {
   error: "",
   openSuccess: false,
   success: "",
+  favori: false,
 };
 
 const AnnonceCard = (props: AnnonceCardProps) => {
   const annonce = props.annonce;
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState({
+    openError: false,
+    error: "",
+    openSuccess: false,
+    success: "",
+    favori: annonce.favori,
+  });
 
   // TODO: alana ito
   annonce.photos = [
@@ -51,14 +60,6 @@ const AnnonceCard = (props: AnnonceCardProps) => {
       url: "/images/voiture1.jpg",
     },
   ];
-  const parseDate = useCallback((date: string) => {
-    const day = dayjs(date);
-    if (day.isSame(new Date())) {
-      return day.format("HH:mm");
-    } else {
-      return day.format("DD MMMM YYYY");
-    }
-  }, []);
 
   const renderClassName = useCallback((note: number) => {
     if (note >= 7) {
@@ -71,7 +72,6 @@ const AnnonceCard = (props: AnnonceCardProps) => {
 
   const onToggleLike = useCallback(() => {
     if (props.likeable) {
-      const lastFavori = annonce.favori;
       toggleFavori(annonce.id)
         .then((res) => {
           const response: ApiResponse = res.data;
@@ -81,8 +81,8 @@ const AnnonceCard = (props: AnnonceCardProps) => {
               ...state,
               success: response.message,
               openSuccess: true,
+              favori: !state.favori,
             }));
-            annonce.favori = !annonce.favori;
           } else {
             setState((state) => ({
               ...state,
@@ -143,7 +143,9 @@ const AnnonceCard = (props: AnnonceCardProps) => {
             <div
               className={`annonce-info ${!props.likeable ? "padding" : ""} `}
             >
-              <Chip label={"Status de l'annonce"} />
+              {props.showStatus && (
+                <ChipStatusAnnonce status={annonce.status} />
+              )}
               <h2 className="annonce-title light no-margin">
                 {annonce.marque.nom}: {annonce.modele.nom}
               </h2>
@@ -164,7 +166,7 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                   checkedIcon={<Favorite fontSize="large" />}
                   onChange={onToggleLike}
                   // defaultChecked={annonce.favori}
-                  checked={annonce.favori}
+                  checked={state.favori}
                 />
               </div>
             )}

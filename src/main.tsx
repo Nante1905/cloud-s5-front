@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import App from "./App.tsx";
 
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import DetailsAnnonceRoot from "./components/annonce/pages/details-annonce/details-annonce.root.tsx";
 import ListeAnnonceRoot from "./components/annonce/pages/liste-annonce/liste-annonce.root.tsx";
 import ListeFavoriRoot from "./components/favori/pages/liste-favori.root.tsx";
 import MesAnnoncesRoot from "./components/historique/pages/mes-annonces/mes-annonces.root.tsx";
@@ -46,6 +47,10 @@ const routes = createBrowserRouter([
       {
         path: "/historique",
         element: <MesAnnoncesRoot />,
+      },
+      {
+        path: "/annonces/:id",
+        element: <DetailsAnnonceRoot />,
       },
     ],
   },
