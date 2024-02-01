@@ -39,3 +39,34 @@ a {
 .text-danger {
   color: $danger !important;
 }
+
+.carousel-root {
+  .control-dots {
+    margin: 0;
+    background: #ffffff69;
+  }
+  .carousel-status {
+    color: black;
+    font-size: 1rem;
+    border-radius: 25%;
+    border-radius: px;
+    background: #9c9a9a6b;
+    padding-inline: 0.5rem;
+  }
+  .dot {
+    opacity: 0.6;
+    background: #2b2626;
+    &.selected {
+      background: rebeccapurple;
+      opacity: 1;
+    }
+  }
+  .thumbs {
+    padding: 0;
+  }
+  .slide {
+    div {
+      height: 100%;
+    }
+  }
+}

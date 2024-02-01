@@ -1,0 +1,22 @@
+.details-annonce {
+  margin-top: 5%;
+  .thumbs-wrapper {
+    margin: auto !important;
+    width: fit-content;
+    .thumbs {
+      padding: 0;
+    }
+  }
+}
+.card_annonce {
+  width: 80%;
+  margin: auto;
+}
+.info_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .MuiCheckbox-root.Mui-checked {
+    color: #ca4e4e !important;
+  }
+}

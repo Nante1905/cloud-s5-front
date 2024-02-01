@@ -1,0 +1,18 @@
+.details-annonce {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  & > * {
+    width: 50%;
+  }
+  .div_info {
+    &_item {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
+  p {
+    margin: 0;
+  }
+}

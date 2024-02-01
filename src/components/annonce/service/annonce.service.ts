@@ -1,9 +1,20 @@
-import { URL_API } from "../../../shared/env/env";
 import { FiltreRequest } from "../types/filtre.type";
 import { TAILLE_PAGE } from "../../../shared/constants/constants";
 import { http } from "../../../shared/services/interceptor/axios.interceptor";
+import dayjs from "dayjs";
 
 export const filtreAnnonce = (filtre: FiltreRequest, page: number) =>
-  http.post(`${URL_API}/annonces/find?page=${page}&taille=${TAILLE_PAGE}`, filtre);
+  http.post(`/annonces/find?page=${page}&taille=${TAILLE_PAGE}`, filtre);
 
-export const toggleFavori = (idAnnonce: number) => http.put(`${URL_API}/annonces/${idAnnonce}/toggle_favoris`)
+export const toggleFavori = (idAnnonce: number) => http.put(`/annonces/${idAnnonce}/toggle_favoris`);
+
+export const parseDate = (date: string) => {
+  const day = dayjs(date);
+  if (day.isSame(new Date())) {
+    return day.format("HH:mm");
+  } else {
+    return day.format("DD MMMM YYYY");
+  }
+};
+
+export const getById = (id: string) => http.get(`/annonces/${id}`);
