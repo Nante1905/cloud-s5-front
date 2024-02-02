@@ -9,7 +9,7 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, Zoom } from "@mui/material";
 import dayjs from "dayjs";
 import { Historique } from "../../../../shared/types/Historique";
 import "./historique-annonce.component.scss";
@@ -59,6 +59,7 @@ const renderDot = (status: string) => {
 };
 
 const HistoriqueAnnonce = (props: HistoriqueProps) => {
+  let transition = 0;
   return (
     <>
       <div className="annonce_info">
@@ -84,25 +85,36 @@ const HistoriqueAnnonce = (props: HistoriqueProps) => {
         <Timeline>
           {props.historique.historiques.map((histo, index) => {
             const dot = renderDot(histo.status);
+            transition += 500;
             return (
-              <TimelineItem key={`historique_${index}`}>
-                <TimelineSeparator>
-                  <TimelineDot className={dot?.color}>{dot?.icon}</TimelineDot>
-                  <TimelineConnector className="timeline_connector" />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <div className="timeline_content">
-                    <p>{histo.status}</p>
-                    <p>
-                      <small>
-                        {dayjs(histo.date).format("DD MMMM YYYY à HH:mm")}
-                      </small>
-                    </p>
-                  </div>
-                </TimelineContent>
-                <TimelineSeparator />
-                <TimelineSeparator />
-              </TimelineItem>
+              <Zoom
+                in={true}
+                style={{
+                  transitionDelay: `${transition}ms`,
+                  transition: "ease-in-out 0.3s",
+                }}
+              >
+                <TimelineItem key={`historique_${index}`}>
+                  <TimelineSeparator>
+                    <TimelineDot className={dot?.color}>
+                      {dot?.icon}
+                    </TimelineDot>
+                    <TimelineConnector className="timeline_connector" />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <div className="timeline_content">
+                      <p>{histo.status}</p>
+                      <p>
+                        <small>
+                          {dayjs(histo.date).format("DD MMMM YYYY à HH:mm")}
+                        </small>
+                      </p>
+                    </div>
+                  </TimelineContent>
+                  <TimelineSeparator />
+                  <TimelineSeparator />
+                </TimelineItem>
+              </Zoom>
             );
           })}
         </Timeline>
