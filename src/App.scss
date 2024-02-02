@@ -1,5 +1,9 @@
 @import "./shared/style/variables.module.scss";
 
+#root {
+  height: 100%;
+}
+
 .box-color {
   aspect-ratio: 2/1;
   width: 3rem;

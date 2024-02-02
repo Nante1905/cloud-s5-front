@@ -1,0 +1,56 @@
+@import "/src/shared/style/variables.module.scss";
+
+.landing-bg {
+  height: 100vh;
+  background: url("/public/images/landing-page.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .landing-text {
+    position: relative;
+    margin-inline: 5%;
+    width: 40%;
+    position: relative;
+    .content {
+      padding-left: 1rem;
+    }
+
+    &::before {
+      content: "";
+      display: block;
+      width: 5px;
+      height: 80%;
+      background-color: $secondary;
+      position: absolute;
+      left: 0;
+      // bottom: 0;
+    }
+    h1 {
+      margin: 0;
+    }
+    .div-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .btn {
+        gap: 0.5rem;
+        &-sell {
+          background: #c48c39;
+        }
+        &-buy {
+          background: #4caf50;
+        }
+      }
+    }
+  }
+  .landing-img {
+    img {
+      position: relative;
+      z-index: -1000;
+      width: 932px;
+      height: 704px;
+    }
+  }
+}
