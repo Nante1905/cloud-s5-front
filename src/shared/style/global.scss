@@ -63,7 +63,7 @@ a {
   }
   .dot {
     opacity: 0.6;
-    background: #2b2626;
+    background: $secondary !important;
     &.selected {
       background: rebeccapurple;
       opacity: 1;
@@ -77,4 +77,28 @@ a {
       height: 100%;
     }
   }
+}
+
+.secondary-text {
+  color: $secondary !important;
+}
+
+.primary-text {
+  color: $primary !important;
+}
+
+.accent-text {
+  color: $accent !important;
+}
+
+.accent-div {
+  background-color: $accent;
+}
+
+.primary-div {
+  background-color: $primary;
+}
+
+.secondary-div {
+  background-color: $secondary;
 }

@@ -1,9 +1,12 @@
 $theme-color: #317b93;
-$light-blue: #45BDC5;
+$light-blue: #45bdc5;
 $success: #27b81f;
 $danger: #c93e3e;
 $warning: rgb(225, 167, 58);
-
+$primary: #3dc2bc;
+$secondary: #3d86c2;
+$accent: #3dc279;
+$primary-pale: #3dc2bc1c;
 
 :export {
   theme-color: $theme-color;
@@ -11,5 +14,8 @@ $warning: rgb(225, 167, 58);
   success: $success;
   danger: $danger;
   warning: $warning;
+  primary: $primary;
+  secondary: $secondary;
+  accent: $accent;
+  primary-pale: $primary-pale;
 }
-

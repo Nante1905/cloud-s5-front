@@ -1,7 +1,12 @@
 // interface DetailsAnnonce
 
-import { Favorite, FavoriteBorder, Person } from "@mui/icons-material";
-import { Checkbox } from "@mui/material";
+import {
+  ChatBubbleRounded,
+  Favorite,
+  FavoriteBorder,
+  Person,
+} from "@mui/icons-material";
+import { Checkbox, IconButton } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
@@ -68,12 +73,6 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
   const onToggleLike = useCallback(() => {
     console.log("toggle ", lastLike.current);
 
-    if (lastLike.current == false) {
-      setState((state) => ({
-        ...state,
-        loadingLike: true,
-      }));
-    }
     toggleFavori(annonce.id)
       .then((res) => {
         console.log(res);
@@ -81,6 +80,12 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
         const response: ApiResponse = res.data;
 
         if (response.ok) {
+          if (lastLike.current == false) {
+            setState((state) => ({
+              ...state,
+              loadingLike: true,
+            }));
+          }
           setState((state) => ({
             ...state,
             successMessage: response.message,
@@ -91,7 +96,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
         } else {
           setState((state) => ({
             ...state,
-            error: response.err,
+            errorMessage: response.err,
             openError: true,
           }));
         }
@@ -113,7 +118,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
         }
         setState((state) => ({
           ...state,
-          error: errorMessage,
+          errorMessage: errorMessage,
           openError: true,
         }));
       });
@@ -160,7 +165,10 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                   {annonce.dateCreation ? parseDate(annonce.dateCreation) : ""}
                 </small>
               </div>
-              <div>
+              <div className="icon-action">
+                <IconButton>
+                  <ChatBubbleRounded />
+                </IconButton>
                 <Checkbox
                   icon={<FavoriteBorder fontSize="large" />}
                   checkedIcon={<Favorite fontSize="large" />}
@@ -187,7 +195,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             />
           </div>
 
-          <h2 className="title">Information technique</h2>
+          <h2 className="title secondary-text">Information technique</h2>
           <div className="div_info_item">
             <strong>Marque: </strong>
             <span>{annonce.voiture.modele.marque.nom}</span>

@@ -113,12 +113,24 @@ const ListeAnnonceRoot = () => {
         }
       })
       .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+
         setState((state) => ({
           ...state,
+          openError: true,
+          errorMessage: errorMessage,
           annonceLoading: false,
-          annonceError: err?.response?.data?.message,
         }));
-        console.log(err);
       });
   };
 

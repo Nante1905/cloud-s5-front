@@ -79,17 +79,17 @@ const AnnonceCard = (props: AnnonceCardProps) => {
     if (props.likeable) {
       console.log("etat  taloha ", lastFavori);
 
-      if (lastFavori.current == false) {
-        setState((state) => ({
-          ...state,
-          loadingLike: true,
-        }));
-      }
       toggleFavori(annonce.id)
         .then((res) => {
           const response: ApiResponse = res.data;
 
           if (response.ok) {
+            if (lastFavori.current == false) {
+              setState((state) => ({
+                ...state,
+                loadingLike: true,
+              }));
+            }
             setState((state) => ({
               ...state,
               success: response.message,
@@ -135,7 +135,7 @@ const AnnonceCard = (props: AnnonceCardProps) => {
           badgeContent={`${annonce.etat}/10`}
           className={renderClassName(annonce.etat)}
         >
-          <Card className={`annonce-card ${annonce.id == 23 ? "liking" : ""}`}>
+          <Card className="annonce-card">
             <div className="annonce-images">
               {/* <img src="/images/logo-fit.png" alt="" /> */}
               <Carousel
