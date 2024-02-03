@@ -1,14 +1,21 @@
 // interface DetailsAnnonce
 
-import { Favorite, FavoriteBorder, Person } from "@mui/icons-material";
-import { Checkbox } from "@mui/material";
+import {
+  ChatBubbleRounded,
+  Favorite,
+  FavoriteBorder,
+  Person,
+  Visibility,
+} from "@mui/icons-material";
+import { Checkbox, IconButton, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
+import { numberFormatter } from "../../../../shared/services/render.service";
 import { Annonce } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import { parseDate, toggleFavori } from "../../service/annonce.service";
@@ -25,6 +32,7 @@ interface DetailsAnnonceState {
   openSuccess: boolean;
   successMessage: string;
   favori: boolean;
+  loadingLike: boolean;
 }
 
 const DetailsAnnonce = (props: DetailsAnnonceProps) => {
@@ -35,8 +43,11 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     openSuccess: false,
     successMessage: "",
     favori: annonce.favori,
+    loadingLike: false,
   };
   const [state, setState] = useState(initialState);
+  const lastLike = useRef(annonce.favori);
+  // TODO: ALANA ITO
   annonce.photos = [
     {
       url: "/images/voiture1.jpg",
@@ -52,7 +63,18 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     },
   ];
 
+  useEffect(() => {
+    setTimeout(() => {
+      setState((state) => ({
+        ...state,
+        loadingLike: false,
+      }));
+    }, 1500);
+  }, [state.loadingLike]);
+
   const onToggleLike = useCallback(() => {
+    console.log("toggle ", lastLike.current);
+
     toggleFavori(annonce.id)
       .then((res) => {
         console.log(res);
@@ -60,16 +82,23 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
         const response: ApiResponse = res.data;
 
         if (response.ok) {
+          if (lastLike.current == false) {
+            setState((state) => ({
+              ...state,
+              loadingLike: true,
+            }));
+          }
           setState((state) => ({
             ...state,
             successMessage: response.message,
             openSuccess: true,
             favori: !state.favori,
           }));
+          lastLike.current = !lastLike.current;
         } else {
           setState((state) => ({
             ...state,
-            error: response.err,
+            errorMessage: response.err,
             openError: true,
           }));
         }
@@ -91,7 +120,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
         }
         setState((state) => ({
           ...state,
-          error: errorMessage,
+          errorMessage: errorMessage,
           openError: true,
         }));
       });
@@ -118,6 +147,9 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             ))}
           </Carousel>
         )}
+        <div className={`liking-gif ${state.loadingLike ? "action" : ""} `}>
+          <img src="/images/hearts-heart.gif" alt="" />
+        </div>
       </div>
       <div className="info-container">
         <div className="card card_annonce">
@@ -135,13 +167,33 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                   {annonce.dateCreation ? parseDate(annonce.dateCreation) : ""}
                 </small>
               </div>
-              <div>
-                <Checkbox
-                  icon={<FavoriteBorder fontSize="large" />}
-                  checkedIcon={<Favorite fontSize="large" />}
-                  onChange={onToggleLike}
-                  checked={state.favori}
-                />
+              <div className="icon-action">
+                <Tooltip title={"Nombre de vues"} arrow>
+                  <div className="flex">
+                    <span>{numberFormatter.format(annonce.nbVues)}</span>
+                    <Visibility className="icon" />
+                  </div>
+                </Tooltip>
+                <Tooltip
+                  title={
+                    state.favori
+                      ? "Supprimer de mes favoris"
+                      : "Mettre en favori"
+                  }
+                  arrow
+                >
+                  <Checkbox
+                    icon={<FavoriteBorder fontSize="large" />}
+                    checkedIcon={<Favorite fontSize="large" />}
+                    onChange={onToggleLike}
+                    checked={state.favori}
+                  />
+                </Tooltip>
+                <Tooltip title="Contacter le vendeur" arrow>
+                  <IconButton>
+                    <ChatBubbleRounded />
+                  </IconButton>
+                </Tooltip>
               </div>
             </div>
           </div>
@@ -162,7 +214,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             />
           </div>
 
-          <h2 className="title">Information technique</h2>
+          <h2 className="title secondary-text">Information technique</h2>
           <div className="div_info_item">
             <strong>Marque: </strong>
             <span>{annonce.voiture.modele.marque.nom}</span>

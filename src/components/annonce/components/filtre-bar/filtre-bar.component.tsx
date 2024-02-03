@@ -1,4 +1,5 @@
 import CancelIcon from "@mui/icons-material/Cancel";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import {
   Box,
   Button,
@@ -11,6 +12,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,6 +22,7 @@ import { Categorie } from "../../../../shared/types/Categorie";
 import { Marque } from "../../../../shared/types/Marque";
 import { Modele } from "../../../../shared/types/Modele";
 import { FiltreRequest } from "../../types/filtre.type";
+
 import "./filtre-bar.component.scss";
 
 interface FiltreProps {
@@ -28,7 +31,7 @@ interface FiltreProps {
   marques: Marque[];
   modeles: Modele[];
   onSubmit: (form: FiltreRequest) => void;
-  onCancelFiltre: () => void;
+  closeFilter: () => void;
 }
 
 interface FiltreState {
@@ -60,7 +63,6 @@ const initialState: FiltreState = {
     categorie: null,
   },
 };
-
 const FiltreBar = (props: FiltreProps) => {
   const categories = props.categories;
   const [state, setState] = useState<FiltreState>(initialState);
@@ -157,16 +159,21 @@ const FiltreBar = (props: FiltreProps) => {
       modelesId: [],
       form: initialState.form,
     }));
-    props.onCancelFiltre;
   };
 
   return (
-    <div className={`filtre-bar ${props.showFilter ? "show" : "hide"} `}>
+    <div className={`filtre-bar ${props.showFilter ? "show" : "hide"}  `}>
+      <IconButton className="close-filter" onClick={props.closeFilter}>
+        <FilterAltOffIcon />
+        <small>Cacher le filtre</small>
+      </IconButton>
       <h2 className="light title">
         Filtres{" "}
-        <IconButton className="text-danger" onClick={cancelFiltre}>
-          <CancelIcon />
-        </IconButton>{" "}
+        <Tooltip title="Réinitialiser le filtre">
+          <IconButton className="text-danger" onClick={cancelFiltre}>
+            <CancelIcon />
+          </IconButton>
+        </Tooltip>
       </h2>
       <form className="form" onSubmit={handleSubmit}>
         <div className="input-group">

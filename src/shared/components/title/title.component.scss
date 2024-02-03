@@ -1,3 +1,5 @@
+@import "/src/shared/style/variables.module.scss";
+
 .title {
   margin-block: 1rem;
   text-align: center;
@@ -10,7 +12,7 @@
       display: block;
       width: 10%;
       height: 5px;
-      background-color: rgb(146, 101, 224);
+      background-color: $accent;
       position: absolute;
       left: 45%;
       // bottom: 0;

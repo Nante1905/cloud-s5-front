@@ -1,13 +1,15 @@
+import { ChatBubbleRounded, Visibility } from "@mui/icons-material";
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import { Badge, Card, Checkbox } from "@mui/material";
-import { useCallback, useState } from "react";
+import { Badge, Card, Checkbox, IconButton, Tooltip } from "@mui/material";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
+import { numberFormatter } from "../../../../shared/services/render.service";
 import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import { parseDate, toggleFavori } from "../../service/annonce.service";
@@ -17,6 +19,7 @@ interface AnnonceCardProps {
   annonce: AnnonceGeneral;
   likeable: boolean;
   showStatus: boolean;
+  onClick: () => void;
 }
 
 interface AnnonceCardState {
@@ -24,7 +27,7 @@ interface AnnonceCardState {
   error: string;
   openSuccess: boolean;
   success: string;
-  favori: boolean;
+  loadingLike: boolean;
 }
 
 const initialState: AnnonceCardState = {
@@ -32,18 +35,13 @@ const initialState: AnnonceCardState = {
   error: "",
   openSuccess: false,
   success: "",
-  favori: false,
+  loadingLike: false,
 };
 
 const AnnonceCard = (props: AnnonceCardProps) => {
   const annonce = props.annonce;
-  const [state, setState] = useState({
-    openError: false,
-    error: "",
-    openSuccess: false,
-    success: "",
-    favori: annonce.favori,
-  });
+  const lastFavori = useRef(annonce.favori);
+  const [state, setState] = useState<AnnonceCardState>(initialState);
 
   // TODO: alana ito
   annonce.photos = [
@@ -70,19 +68,36 @@ const AnnonceCard = (props: AnnonceCardProps) => {
     return "danger";
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setState((state) => ({
+        ...state,
+        loadingLike: false,
+      }));
+    }, 1500);
+  }, [state.loadingLike]);
+
   const onToggleLike = useCallback(() => {
     if (props.likeable) {
+      console.log("etat  taloha ", lastFavori);
+
       toggleFavori(annonce.id)
         .then((res) => {
           const response: ApiResponse = res.data;
 
           if (response.ok) {
+            if (lastFavori.current == false) {
+              setState((state) => ({
+                ...state,
+                loadingLike: true,
+              }));
+            }
             setState((state) => ({
               ...state,
               success: response.message,
               openSuccess: true,
-              favori: !state.favori,
             }));
+            lastFavori.current = !lastFavori.current;
           } else {
             setState((state) => ({
               ...state,
@@ -140,8 +155,10 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                 ))}
               </Carousel>
             </div>
+
             <div
               className={`annonce-info ${!props.likeable ? "padding" : ""} `}
+              onClick={props.onClick}
             >
               {props.showStatus && (
                 <ChipStatusAnnonce status={annonce.status} />
@@ -159,18 +176,42 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                 {annonce.prix.toLocaleString("fr")} MGA
               </h3>
             </div>
-            {props.likeable && (
-              <div className="favorite-icon">
-                <Checkbox
-                  icon={<FavoriteBorder fontSize="large" />}
-                  checkedIcon={<Favorite fontSize="large" />}
-                  onChange={onToggleLike}
-                  // defaultChecked={annonce.favori}
-                  checked={state.favori}
-                />
+            <div className="favorite-icon">
+              <div className="flex">
+                <span>{numberFormatter.format(annonce.vues)}</span>
+                <Visibility className="icon" />
               </div>
-            )}
+              {/* TODO: rediriger vers discussion */}
+              {props.likeable && (
+                <>
+                  <Tooltip title="Contacter le vendeur" arrow>
+                    <IconButton>
+                      <ChatBubbleRounded />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip
+                    title={
+                      lastFavori.current
+                        ? "Supprimer de mes favoris"
+                        : "Mettre en favori"
+                    }
+                  >
+                    <Checkbox
+                      icon={<FavoriteBorder fontSize="large" />}
+                      checkedIcon={<Favorite fontSize="large" />}
+                      onChange={onToggleLike}
+                      checked={lastFavori.current}
+                    />
+                  </Tooltip>
+                </>
+              )}
+            </div>
           </Card>
+
+          <div className={`liking-gif ${state.loadingLike ? "action" : ""} `}>
+            <img src="/images/hearts-heart.gif" alt="" />
+          </div>
         </Badge>
       </div>
       <ErrorSnackBar

@@ -1,35 +1,38 @@
+import dayjs from "dayjs";
+import "dayjs/locale";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import Title from "../../../../shared/components/title/title.component";
 import { getErrorMessage } from "../../../../shared/services/api.service";
-import { Annonce } from "../../../../shared/types/Annonce";
+import { Historique } from "../../../../shared/types/Historique";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
-import DetailsAnnonce from "../../components/details-annonce/details-annonce.component";
-import { getById } from "../../service/annonce.service";
-import "./details-annonce.root.scss";
+import HistoriqueAnnonce from "../../components/historique/historique-annonce.component";
+import { findHistorique } from "../../service/historique.service";
 
 interface DetailsAnnonceState {
-  annonce: Annonce | null;
+  historique: Historique | null;
   loading: boolean;
   openError: boolean;
   errorMessage: string;
 }
 
 const initialState: DetailsAnnonceState = {
-  annonce: null,
+  historique: null,
   loading: true,
   openError: false,
   errorMessage: "",
 };
 
-const DetailsAnnonceRoot = () => {
+dayjs.locale("fr");
+
+const HistoriqueAnnonceRoot = () => {
   const id = useParams().id;
-  const [state, setState] = useState<DetailsAnnonceState>(initialState);
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
-    getById(id as string)
+    findHistorique(id as string)
       .then((res) => {
         console.log(res);
 
@@ -37,7 +40,7 @@ const DetailsAnnonceRoot = () => {
         if (response.ok) {
           setState((state) => ({
             ...state,
-            annonce: response.data,
+            historique: response.data,
             loading: false,
           }));
         } else {
@@ -50,6 +53,7 @@ const DetailsAnnonceRoot = () => {
         }
       })
       .catch((err) => {
+        console.log(err);
         let errorMessage = "";
         if (
           !err.response?.data.err ||
@@ -60,11 +64,9 @@ const DetailsAnnonceRoot = () => {
         } else {
           errorMessage = err.response.data.err;
         }
-        console.log(errorMessage);
-
         setState((state) => ({
           ...state,
-          error: errorMessage,
+          errorMessage: errorMessage,
           loading: false,
           openError: true,
         }));
@@ -73,14 +75,14 @@ const DetailsAnnonceRoot = () => {
 
   return (
     <>
+      <Title>Historique annonce</Title>
       <AppLoaderComponent
         loading={state.loading}
         children={
           <>
-            <Title>{`Annonce ${state.annonce?.reference as string}`}</Title>
-            <div className="details-annonce">
-              <DetailsAnnonce annonce={state.annonce as Annonce} />
-            </div>
+            {state.historique != null && (
+              <HistoriqueAnnonce historique={state.historique as Historique} />
+            )}
           </>
         }
       />
@@ -98,4 +100,4 @@ const DetailsAnnonceRoot = () => {
   );
 };
 
-export default DetailsAnnonceRoot;
+export default HistoriqueAnnonceRoot;

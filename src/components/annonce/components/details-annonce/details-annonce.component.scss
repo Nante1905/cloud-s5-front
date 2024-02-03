@@ -1,3 +1,5 @@
+@import "/src/shared/style/variables.module.scss";
+
 .details-annonce {
   margin-top: 5%;
   .thumbs-wrapper {
@@ -7,10 +9,24 @@
       padding: 0;
     }
   }
+  .img-container {
+    position: relative;
+  }
+  .liking-gif {
+    // width: 40% !important;
+    // width: 0%;
+    // &.action {
+    //   transition: all ease-in-out 1.2s;
+    //   width: 100%;
+    // }
+    left: 0 !important;
+  }
 }
 .card_annonce {
   width: 80%;
   margin: auto;
+  background: $primary-pale;
+  border-radius: 15px;
 }
 .info_header {
   display: flex;
@@ -18,5 +34,20 @@
   align-items: center;
   .MuiCheckbox-root.Mui-checked {
     color: #ca4e4e !important;
+  }
+  .icon-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .flex {
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      gap: 10%;
+    }
+    .icon {
+      color: gray;
+    }
   }
 }

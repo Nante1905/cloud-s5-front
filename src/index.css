@@ -3,8 +3,14 @@
   src: url("./assets/fonts/Jost.ttf");
 }
 
+html {
+  height: 100vh;
+}
+
 body {
   font-family: "Jost";
+  height: 100%;
+  margin: 0;
 }
 
 h1 {

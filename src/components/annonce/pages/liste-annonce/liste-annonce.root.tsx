@@ -113,12 +113,24 @@ const ListeAnnonceRoot = () => {
         }
       })
       .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+
         setState((state) => ({
           ...state,
+          openError: true,
+          errorMessage: errorMessage,
           annonceLoading: false,
-          annonceError: err?.response?.data?.message,
         }));
-        console.log(err);
       });
   };
 
@@ -281,14 +293,11 @@ const ListeAnnonceRoot = () => {
     fetchAnnonce(form, 1, []);
   };
 
-  // TO DO: ref miala ve ny filtre rehetra d miverina mi fetch sa mila mipotsitra bouton rechercher ndray izy vao manao an'izay
-  const cancelFiltre = () => {
-    // setState((state) => ({
-    //   ...state,
-    //   annonces: [],
-    //   page: 1,
-    //   filtre: initialFiltre,
-    // }));
+  const closeFilter = () => {
+    setState((state) => ({
+      ...state,
+      showFilter: !state.showFilter,
+    }));
   };
 
   return (
@@ -300,7 +309,7 @@ const ListeAnnonceRoot = () => {
         modeles={state.modeles}
         marques={state.marques}
         onSubmit={submitFiltre}
-        onCancelFiltre={cancelFiltre}
+        closeFilter={closeFilter}
       />
       <div className="annonces-container">
         <div className="filtre-btn">
