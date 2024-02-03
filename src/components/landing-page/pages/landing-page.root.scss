@@ -8,32 +8,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   .landing-text {
     position: relative;
     margin-inline: 5%;
     width: 40%;
-    position: relative;
+    // position: relative;
     .content {
-      padding-left: 1rem;
+      .text {
+        position: relative;
+        padding-left: 1rem;
+
+        &::before {
+          content: "";
+          display: block;
+          width: 5px;
+          height: 100%;
+          background-color: $secondary;
+          position: absolute;
+          left: 0;
+        }
+      }
     }
 
-    &::before {
-      content: "";
-      display: block;
-      width: 5px;
-      height: 80%;
-      background-color: $secondary;
-      position: absolute;
-      left: 0;
-      // bottom: 0;
-    }
     h1 {
       margin: 0;
     }
     .div-action {
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: 1rem;
+      width: 80%;
       .btn {
         gap: 0.5rem;
         &-sell {
@@ -46,11 +53,16 @@
     }
   }
   .landing-img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    z-index: -3;
+    width: 65%;
+    overflow: hidden;
     img {
-      position: relative;
-      z-index: -1000;
-      width: 932px;
-      height: 704px;
+      width: 100%;
+      height: 100%;
     }
   }
 }

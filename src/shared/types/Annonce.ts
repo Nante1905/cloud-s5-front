@@ -37,5 +37,6 @@ export interface AnnonceGeneral {
     photos: Photo[],
     etat: number
     favori: boolean,
-    status: number
+    status: number,
+    vues: number
 }

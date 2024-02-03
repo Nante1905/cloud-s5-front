@@ -5,8 +5,9 @@ import {
   Favorite,
   FavoriteBorder,
   Person,
+  Visibility,
 } from "@mui/icons-material";
-import { Checkbox, IconButton } from "@mui/material";
+import { Checkbox, IconButton, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
@@ -14,6 +15,7 @@ import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
+import { numberFormatter } from "../../../../shared/services/render.service";
 import { Annonce } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import { parseDate, toggleFavori } from "../../service/annonce.service";
@@ -166,15 +168,32 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                 </small>
               </div>
               <div className="icon-action">
-                <IconButton>
-                  <ChatBubbleRounded />
-                </IconButton>
-                <Checkbox
-                  icon={<FavoriteBorder fontSize="large" />}
-                  checkedIcon={<Favorite fontSize="large" />}
-                  onChange={onToggleLike}
-                  checked={state.favori}
-                />
+                <Tooltip title={"Nombre de vues"} arrow>
+                  <div className="flex">
+                    <span>{numberFormatter.format(annonce.nbVues)}</span>
+                    <Visibility className="icon" />
+                  </div>
+                </Tooltip>
+                <Tooltip
+                  title={
+                    state.favori
+                      ? "Supprimer de mes favoris"
+                      : "Mettre en favori"
+                  }
+                  arrow
+                >
+                  <Checkbox
+                    icon={<FavoriteBorder fontSize="large" />}
+                    checkedIcon={<Favorite fontSize="large" />}
+                    onChange={onToggleLike}
+                    checked={state.favori}
+                  />
+                </Tooltip>
+                <Tooltip title="Contacter le vendeur" arrow>
+                  <IconButton>
+                    <ChatBubbleRounded />
+                  </IconButton>
+                </Tooltip>
               </div>
             </div>
           </div>

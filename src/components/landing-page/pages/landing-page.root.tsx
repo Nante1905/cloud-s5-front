@@ -7,16 +7,18 @@ const LandingPage = () => {
     <div className="landing-bg">
       <div className="landing-text">
         <div className="content">
-          <h1 className="landing-title primary-text">
-            {" "}
-            <div></div> Bienvenue!
-          </h1>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id
-            exercitationem molestias, nisi consectetur nihil cumque quisquam
-            expedita, accusantium ducimus omnis quaerat maxime eos natus quo,
-            facilis sit laborum. Iste, perferendis.
-          </p>
+          <div className="text">
+            <h1 className="landing-title primary-text">
+              {" "}
+              <div></div> Bienvenue!
+            </h1>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id
+              exercitationem molestias, nisi consectetur nihil cumque quisquam
+              expedita, accusantium ducimus omnis quaerat maxime eos natus quo,
+              facilis sit laborum. Iste, perferendis.
+            </p>
+          </div>
           <div className="div-action">
             <Button variant="contained" className="btn btn-sell">
               {" "}

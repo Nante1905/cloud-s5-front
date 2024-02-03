@@ -36,10 +36,18 @@
     color: #ca4e4e !important;
   }
   .icon-action {
-    display: grid;
-    grid-template-columns: 50% 50%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    place-content: center;
-    place-items: center;
+
+    .flex {
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      gap: 10%;
+    }
+    .icon {
+      color: gray;
+    }
   }
 }

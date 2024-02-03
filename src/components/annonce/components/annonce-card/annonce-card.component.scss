@@ -4,13 +4,9 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   user-select: none;
   transition: all ease-in-out 0.3s !important;
   position: relative;
-  // &.liking {
-  //   background: url("/public/images/hearts-heart.gif");
-  // }
 
   &:hover {
     // transform: scale(1.1);
@@ -25,9 +21,26 @@
     &.padding {
       padding-bottom: 2rem;
     }
+    cursor: pointer;
   }
   .favorite-icon {
-    text-align: right;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+
+    justify-content: center;
+
+    align-items: center;
+    align-content: center;
+    margin: 0.5rem 0rem;
+    .flex {
+      display: flex;
+      align-items: center;
+      gap: 5%;
+      justify-content: center;
+    }
+    .icon {
+      color: gray;
+    }
     .MuiCheckbox-root.Mui-checked {
       color: #ca4e4e !important;
     }

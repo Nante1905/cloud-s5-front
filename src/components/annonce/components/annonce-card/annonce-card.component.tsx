@@ -1,6 +1,7 @@
+import { ChatBubbleRounded, Visibility } from "@mui/icons-material";
 import Favorite from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import { Badge, Card, Checkbox } from "@mui/material";
+import { Badge, Card, Checkbox, IconButton, Tooltip } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -8,6 +9,7 @@ import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
+import { numberFormatter } from "../../../../shared/services/render.service";
 import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import { parseDate, toggleFavori } from "../../service/annonce.service";
@@ -174,17 +176,37 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                 {annonce.prix.toLocaleString("fr")} MGA
               </h3>
             </div>
-            {props.likeable && (
-              <div className="favorite-icon">
-                <Checkbox
-                  icon={<FavoriteBorder fontSize="large" />}
-                  checkedIcon={<Favorite fontSize="large" />}
-                  onChange={onToggleLike}
-                  // defaultChecked={annonce.favori}
-                  checked={lastFavori.current}
-                />
+            <div className="favorite-icon">
+              <div className="flex">
+                <span>{numberFormatter.format(annonce.vues)}</span>
+                <Visibility className="icon" />
               </div>
-            )}
+              {/* TODO: rediriger vers discussion */}
+              {props.likeable && (
+                <>
+                  <Tooltip title="Contacter le vendeur" arrow>
+                    <IconButton>
+                      <ChatBubbleRounded />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip
+                    title={
+                      lastFavori.current
+                        ? "Supprimer de mes favoris"
+                        : "Mettre en favori"
+                    }
+                  >
+                    <Checkbox
+                      icon={<FavoriteBorder fontSize="large" />}
+                      checkedIcon={<Favorite fontSize="large" />}
+                      onChange={onToggleLike}
+                      checked={lastFavori.current}
+                    />
+                  </Tooltip>
+                </>
+              )}
+            </div>
           </Card>
 
           <div className={`liking-gif ${state.loadingLike ? "action" : ""} `}>
