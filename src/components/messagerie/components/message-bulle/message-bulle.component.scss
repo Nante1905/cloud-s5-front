@@ -15,6 +15,13 @@
     &.right {
       background-color: $message-bulle;
     }
+
+    &.message_sending {
+      background-color: rgba(124, 124, 124, 0.593);
+    }
+    &.message_error {
+      background-color: rgba(255, 45, 45, 0.593);
+    }
   }
   &_image {
     img {

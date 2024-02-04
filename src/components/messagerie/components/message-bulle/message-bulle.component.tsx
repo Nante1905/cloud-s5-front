@@ -13,23 +13,64 @@ const MessageBulleComponent = (props: MessageBulleComponentProps) => {
     justifyContent: props.right ? "flex-end" : "flex-start",
   };
 
+  const renderDateEnvoie = (dateEnvoie: string) => {
+    const date = new Date(dateEnvoie);
+    const diff =
+      Math.abs(date.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24);
+
+    if (diff >= 1) {
+      return (
+        dateEnvoie.split("T")[0] +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes()
+      );
+    } else {
+      return date.getHours() + ":" + date.getMinutes();
+    }
+  };
+
+  const bulleClass = (right: boolean, status: number): string => {
+    let res = "message-bulle_content";
+    if (right) {
+      res += " right";
+    }
+
+    if (status !== undefined) {
+      switch (status) {
+        case -5:
+          res += " message_error";
+          break;
+        case 0:
+          res += " message_sending";
+          break;
+        case 5:
+          res += " message_sent";
+          break;
+        default:
+          res += "";
+          break;
+      }
+    }
+
+    return res;
+  };
+
   return (
     <div className="message-bulle" id={props.id ? props.id : ""} style={style}>
-      <div className="message-bulle_image">22:00</div>
+      <div className="message-bulle_image">
+        {props.message && props.message.status === -5
+          ? " Non envoyé"
+          : renderDateEnvoie(props.message.dateEnvoi)}
+      </div>
       <div
-        className={
-          props.right ? "message-bulle_content right" : "message-bulle_content"
-        }
+        className={bulleClass(
+          props.right as boolean,
+          props.message.status as number
+        )}
       >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat est quam
-        ratione illum ad omnis, ipsa harum dicta laboriosam totam adipisci
-        praesentium, labore nam ea. Fuga mollitia nam laudantium distinctio hic
-        cum, quaerat quis temporibus aut consequatur nesciunt voluptates quae
-        dolores eum accusamus neque libero minus veritatis recusandae culpa
-        excepturi perspiciatis nemo velit? Voluptatibus recusandae ab pariatur,
-        dignissimos fugit sed cupiditate culpa. Ut alias ipsa rerum omnis quo
-        cum, harum sed aspernatur porro a cumque perferendis, minus dolorum
-        ipsam? Tempora.
+        {props.message.contenu}
       </div>
     </div>
   );
