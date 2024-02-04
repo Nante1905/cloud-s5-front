@@ -1,0 +1,66 @@
+@import "/src/shared/style/variables.module.scss";
+
+.download-bg {
+  min-height: 100vh;
+  background: url("/images/download-page.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  .landing-text {
+    position: relative;
+    margin-inline: 5%;
+    width: 40%;
+    padding-top: 10%;
+    padding-right: 5%;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  .img-container {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    img {
+      width: 70%;
+    }
+  }
+  .div-action {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    .div_qr-code {
+      // width: 30%;
+      padding: 1%;
+      svg {
+        width: 10rem;
+      }
+    }
+    .logo {
+      width: 40%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .download-bg {
+    background: #76a09e1c !important;
+    .landing-text {
+      width: 100%;
+    }
+  }
+  .img-container {
+    display: none !important;
+  }
+  // .div_qr-code {
+  //   width: 100%;
+  // }
+}

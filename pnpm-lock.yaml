@@ -22,10 +22,10 @@ dependencies:
     version: 5.15.5(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
   '@mui/x-data-grid':
     specifier: ^6.16.2
-    version: 6.18.7(@mui/material@5.15.5)(@mui/system@5.15.5)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
+    version: 6.18.7(@mui/material@5.15.5)(@mui/system@5.15.7)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
   '@mui/x-date-pickers':
     specifier: ^6.18.2
-    version: 6.19.0(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@mui/material@5.15.5)(@mui/system@5.15.5)(@types/react@18.2.47)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
+    version: 6.19.0(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@mui/material@5.15.5)(@mui/system@5.15.7)(@types/react@18.2.47)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
   '@reduxjs/toolkit':
     specifier: ^2.0.1
     version: 2.0.1(react-redux@9.1.0)(react@18.2.0)
@@ -47,6 +47,9 @@ dependencies:
   react-infinite-scroll-component:
     specifier: ^6.1.0
     version: 6.1.0(react@18.2.0)
+  react-qr-code:
+    specifier: ^2.0.12
+    version: 2.0.12(react@18.2.0)
   react-redux:
     specifier: ^9.1.0
     version: 9.1.0(@types/react@18.2.47)(react@18.2.0)(redux@5.0.1)
@@ -1114,7 +1117,7 @@ packages:
       react-is: 18.2.0
     dev: false
 
-  /@mui/x-data-grid@6.18.7(@mui/material@5.15.5)(@mui/system@5.15.5)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0):
+  /@mui/x-data-grid@6.18.7(@mui/material@5.15.5)(@mui/system@5.15.7)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-K1A3pMUPxI4/Mt5A4vrK45fBBQK5rZvBVqRMrB5n8zX++Bj+WLWKvLTtfCmlriUtzuadr/Hl7Z+FDRXUJAx6qg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -1125,7 +1128,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.8
       '@mui/material': 5.15.5(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/system': 5.15.5(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.47)(react@18.2.0)
+      '@mui/system': 5.15.7(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.47)(react@18.2.0)
       '@mui/utils': 5.15.5(@types/react@18.2.47)(react@18.2.0)
       clsx: 2.1.0
       prop-types: 15.8.1
@@ -1136,7 +1139,7 @@ packages:
       - '@types/react'
     dev: false
 
-  /@mui/x-date-pickers@6.19.0(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@mui/material@5.15.5)(@mui/system@5.15.5)(@types/react@18.2.47)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0):
+  /@mui/x-date-pickers@6.19.0(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@mui/material@5.15.5)(@mui/system@5.15.7)(@types/react@18.2.47)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-/GccT+iFJTKjI6b9b0MWojyRKnizL/VYYAfPnR1q0wSVVXjYv7a1NK0uQlan4JbnovqoQCNVeTOCy/0bUJyD2Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -1178,7 +1181,7 @@ packages:
       '@emotion/styled': 11.11.0(@emotion/react@11.11.3)(@types/react@18.2.47)(react@18.2.0)
       '@mui/base': 5.0.0-beta.32(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
       '@mui/material': 5.15.5(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/system': 5.15.5(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.47)(react@18.2.0)
+      '@mui/system': 5.15.7(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.47)(react@18.2.0)
       '@mui/utils': 5.15.5(@types/react@18.2.47)(react@18.2.0)
       '@types/react-transition-group': 4.4.10
       clsx: 2.1.0
@@ -2527,6 +2530,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /qr.js@0.0.0:
+    resolution: {integrity: sha512-c4iYnWb+k2E+vYpRimHqSu575b1/wKl4XFeJGpFmrJQz5I88v9aY2czh7s0w36srfCM1sXgC/xpoJz5dJfq+OQ==}
+    dev: false
+
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
@@ -2563,6 +2570,20 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-qr-code@2.0.12(react@18.2.0):
+    resolution: {integrity: sha512-k+pzP5CKLEGBRwZsDPp98/CAJeXlsYRHM2iZn1Sd5Th/HnKhIZCSg27PXO58zk8z02RaEryg+60xa4vyywMJwg==}
+    peerDependencies:
+      react: ^16.x || ^17.x || ^18.x
+      react-native-svg: '*'
+    peerDependenciesMeta:
+      react-native-svg:
+        optional: true
+    dependencies:
+      prop-types: 15.8.1
+      qr.js: 0.0.0
+      react: 18.2.0
     dev: false
 
   /react-redux@9.1.0(@types/react@18.2.47)(react@18.2.0)(redux@5.0.1):
