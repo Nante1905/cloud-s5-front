@@ -9,6 +9,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import DetailsAnnonceRoot from "./components/annonce/pages/details-annonce/details-annonce.root.tsx";
 import ListeAnnonceRoot from "./components/annonce/pages/liste-annonce/liste-annonce.root.tsx";
+import DownloadPage from "./components/download-page/pages/download-page.root.tsx";
 import ListeFavoriRoot from "./components/favori/pages/liste-favori.root.tsx";
 import HistoriqueAnnonceRoot from "./components/historique/pages/historique-annonce/historique-annonce.root.tsx";
 import MesAnnoncesRoot from "./components/historique/pages/mes-annonces/mes-annonces.root.tsx";
@@ -28,6 +29,10 @@ const theme = createTheme(
 );
 
 const routes = createBrowserRouter([
+  {
+    path: "/download",
+    element: <DownloadPage />,
+  },
   {
     path: "",
     element: (

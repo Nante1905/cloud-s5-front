@@ -1,8 +1,10 @@
 import { CarRental, Sell } from "@mui/icons-material";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 import "./landing-page.root.scss";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="landing-bg">
       <div className="landing-text">
@@ -20,11 +22,19 @@ const LandingPage = () => {
             </p>
           </div>
           <div className="div-action">
-            <Button variant="contained" className="btn btn-sell">
+            <Button
+              variant="contained"
+              className="btn btn-sell"
+              onClick={() => navigate("/download")}
+            >
               {" "}
               <Sell /> Vendre ma voiture
             </Button>
-            <Button variant="contained" className="btn btn-buy">
+            <Button
+              variant="contained"
+              className="btn btn-buy"
+              onClick={() => navigate("/annonces")}
+            >
               {" "}
               <CarRental /> Acheter une voiture
             </Button>
