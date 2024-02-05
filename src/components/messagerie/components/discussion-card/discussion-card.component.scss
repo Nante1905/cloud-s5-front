@@ -1,0 +1,32 @@
+.discussion-card {
+  &.active {
+    background-color: #2476947f;
+  }
+  // border: 1px solid black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  border-radius: 20px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #2476947f;
+  }
+
+  &_image {
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+  }
+  &_content {
+    text-align: left;
+    p,
+    h3 {
+      margin: 0;
+    }
+  }
+}

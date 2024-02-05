@@ -18,3 +18,5 @@ export const parseDate = (date: string) => {
 };
 
 export const getById = (id: string) => http.get(`/annonces/${id}`);
+
+export const getDiscussion = (proprio: number) => http.post(`/discussions`, { targetUserId: proprio });

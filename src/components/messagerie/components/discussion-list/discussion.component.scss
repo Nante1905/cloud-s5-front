@@ -1,0 +1,14 @@
+.discussion-list {
+  position: fixed;
+  width: 25%;
+  overflow-y: scroll;
+  max-height: calc(100vh - 70px);
+  padding-inline: 0.75rem;
+  padding-block: 1rem;
+
+  &_body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.25rem;
+  }
+}
