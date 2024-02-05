@@ -11,7 +11,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useCallback, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../../../../components/login/service/login.service";
 import { MenuItem } from "../types/MenuItem";
 import { UserToken } from "../types/UserToken";
 import "./collapsed-navbar.component.scss";
@@ -33,6 +34,7 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
   const location = useLocation();
   const menus = props.menus;
   const [state, setState] = useState(initialState);
+  const navigate = useNavigate();
 
   const closeNavbar = useCallback(() => {
     setState((state) => ({
@@ -40,6 +42,11 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
       open: false,
     }));
   }, []);
+
+  const logOut = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <>
@@ -69,7 +76,7 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
           {props.user == null ? (
             <ListItem onClick={closeNavbar}>
               <ListItemText>
-                <Link to="/login" className="link" key={`nav_login`}>
+                <Link to="/login" key={`nav_login`}>
                   Se connecter
                 </Link>
               </ListItemText>
@@ -83,7 +90,12 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
                 <span className="username">{props.user.email}</span>
               </div>
               <div className="link">
-                <Link to="" className="logout-link" key={`nav_login`}>
+                <Link
+                  to=""
+                  className="logout-link"
+                  key={`nav_login`}
+                  onClick={logOut}
+                >
                   <LogoutIcon />
                 </Link>
               </div>
@@ -122,7 +134,12 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
                     {props.user.email.split("")[0].toUpperCase()}
                   </Avatar>
                 </div>
-                <Link to="/login" className="logout-link" key={`nav_login`}>
+                <Link
+                  to="/login"
+                  className="logout-link"
+                  key={`nav_login`}
+                  onClick={logOut}
+                >
                   <LogoutIcon />
                 </Link>
               </div>

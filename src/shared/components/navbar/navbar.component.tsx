@@ -7,7 +7,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../../../components/login/service/login.service";
 import decodeToken from "../../helper/auth-temp.helper";
 import CollapsedNavbar from "./collapsed-navbar/collapsed-navbar.component";
 import "./navbar.component.scss";
@@ -19,6 +20,7 @@ const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const location = useLocation();
+  const navigate = useNavigate();
 
   const menuItems: MenuItem[] = [
     {
@@ -42,6 +44,12 @@ const Navbar = () => {
       needConnection: true,
     },
   ];
+
+  const logOut = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <>
       {isMobile ? (
@@ -79,7 +87,11 @@ const Navbar = () => {
                       {user.email.split("")[0].toUpperCase()}
                     </Avatar>
                   </Tooltip>
-                  <IconButton className="logout-link" key={`nav_login`}>
+                  <IconButton
+                    className="logout-link"
+                    key={`nav_login`}
+                    onClick={logOut}
+                  >
                     <LogoutIcon />
                   </IconButton>
                 </div>

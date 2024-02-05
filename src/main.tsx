@@ -14,6 +14,7 @@ import ListeFavoriRoot from "./components/favori/pages/liste-favori.root.tsx";
 import HistoriqueAnnonceRoot from "./components/historique/pages/historique-annonce/historique-annonce.root.tsx";
 import MesAnnoncesRoot from "./components/historique/pages/mes-annonces/mes-annonces.root.tsx";
 import LandingPage from "./components/landing-page/pages/landing-page.root.tsx";
+import LoginPage from "./components/login/pages/login.root.tsx";
 import "./index.css";
 import { store } from "./shared/store/store.ts";
 
@@ -29,6 +30,10 @@ const theme = createTheme(
 );
 
 const routes = createBrowserRouter([
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
   {
     path: "",
     element: (
