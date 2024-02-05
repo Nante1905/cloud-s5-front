@@ -35,17 +35,6 @@ const MessageContainerRoot = (props: MessageContainerRootProps) => {
 
   useEffect(() => {
     if (messages.current) {
-      console.log(
-        "scroll",
-        messages.current.scrollTop,
-        messages.current.scrollHeight
-      );
-      messages.current.scrollTop = messages.current.scrollHeight;
-      console.log(
-        "scroll tapitra",
-        messages.current.scrollTop,
-        messages.current.scrollHeight
-      );
       end.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [state.messages]);
@@ -56,6 +45,7 @@ const MessageContainerRoot = (props: MessageContainerRootProps) => {
       (data: { message: string; discussionId: string; idExpedit: string }) => {
         console.log(data);
         console.log("curent", props.chatId);
+
         if (data.discussionId == props.chatId) {
           console.log("message_received");
           const newMessage: Message = {
@@ -95,6 +85,24 @@ const MessageContainerRoot = (props: MessageContainerRootProps) => {
       ...state,
       messages: [newMessage, ...state.messages],
     }));
+
+    // TODO: dev mode only
+    // setTimeout(() => {
+    //   socket.emit("send_message", {
+    //     message: message,
+    //     discussionId: chatId,
+    //     idExpedit: decodeToken().id,
+    //   });
+    //   setState((state) => ({
+    //     ...state,
+    //     messages: state.messages.map((message) => {
+    //       if (message.status === 0) {
+    //         message.status = 5;
+    //       }
+    //       return message;
+    //     }),
+    //   }));
+    // }, 1000);
 
     sendMessage(chatId, message)
       .then((_res) => {

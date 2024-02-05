@@ -1,5 +1,4 @@
-import { useMemo, useRef } from "react";
-import decodeToken from "../../../../shared/helpers/auth.helper";
+import { useRef } from "react";
 import { Discussion } from "../../../../shared/types/Discussion";
 import "./discussion-card.component.scss";
 
@@ -15,10 +14,6 @@ const DiscussionCardComponent = (props: DiscussionCardComponentProps) => {
     width: props.width ? props.width : "initial",
     height: props.heigth ? props.heigth : "initial",
   };
-
-  const token = useMemo(() => {
-    return decodeToken();
-  }, []);
 
   const discussionCard = useRef<HTMLDivElement>(null);
 
