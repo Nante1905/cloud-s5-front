@@ -6,3 +6,8 @@ export interface Utilisateur {
     dateInscription?: string,
     adresse: string
 }
+
+export interface Auth {
+    email: string,
+    password: string
+}
