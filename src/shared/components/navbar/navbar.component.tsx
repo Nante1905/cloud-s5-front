@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import decodeToken from "../../helper/auth-temp.helper";
 import CollapsedNavbar from "./collapsed-navbar/collapsed-navbar.component";
 import "./navbar.component.scss";
@@ -18,7 +18,7 @@ const Navbar = () => {
   const user: UserToken | null = decodeToken();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const menus = ["Acheter", "Mes favoris", "Historique", "Messages"];
+  const location = useLocation();
 
   const menuItems: MenuItem[] = [
     {
@@ -49,14 +49,20 @@ const Navbar = () => {
       ) : (
         <AppBar position="fixed">
           <div className="navbar">
-            <div className="nav-logo">
+            <Link to="/" className="nav-logo">
               <img src="/images/logo-transparent.png" alt="logo" />
-            </div>
+            </Link>
             <div className="nav-links">
               {menuItems.map((m) => {
                 if (!m.needConnection || (m.needConnection && user != null)) {
                   return (
-                    <Link to={m.link} className="link" key={`nav_${m.text}`}>
+                    <Link
+                      to={m.link}
+                      className={`link ${
+                        location.pathname == m.link ? "active" : ""
+                      }`}
+                      key={`nav_${m.text}`}
+                    >
                       {m.text}
                     </Link>
                   );
@@ -67,7 +73,7 @@ const Navbar = () => {
                   Se connecter
                 </Link>
               ) : (
-                <div className="link flex">
+                <div className="special-link flex">
                   <Tooltip title={user.email} arrow>
                     <Avatar className="div-primary">
                       {user.email.split("")[0].toUpperCase()}

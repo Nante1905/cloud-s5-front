@@ -1,3 +1,4 @@
+import { Zoom } from "@mui/material";
 import QRCode from "react-qr-code";
 import { MOBILE_APP } from "../../../shared/env/env";
 import "./download-page.root.scss";
@@ -32,7 +33,15 @@ const DownloadPage = () => {
         </div>
       </div>
       <div className="img-container">
-        <img src="/images/phone-v2.png" alt="" />
+        <Zoom
+          in={true}
+          style={{
+            transitionDelay: `400ms`,
+            transition: "ease-in-out 0.3s",
+          }}
+        >
+          <img src="/images/phone-v2.png" alt="" />
+        </Zoom>
       </div>
     </div>
   );

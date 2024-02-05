@@ -9,7 +9,8 @@
   z-index: 2;
   transition: all ease-in-out 0.5s;
   overflow: scroll;
-  max-height: calc(100vh - 4rem);
+  max-height: calc(100vh - 7rem);
+  margin-top: 3rem;
   .close-filter {
     font-size: 1rem;
     color: black;

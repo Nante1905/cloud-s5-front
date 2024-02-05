@@ -11,7 +11,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MenuItem } from "../types/MenuItem";
 import { UserToken } from "../types/UserToken";
 import "./collapsed-navbar.component.scss";
@@ -30,6 +30,7 @@ interface CollapsedNavbarProps {
 }
 
 const CollapsedNavbar = (props: CollapsedNavbarProps) => {
+  const location = useLocation();
   const menus = props.menus;
   const [state, setState] = useState(initialState);
 
@@ -43,16 +44,23 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
   return (
     <>
       <Drawer open={state.open} onClose={closeNavbar} className="collapsed-nav">
-        <div className="nav-logo">
+        <Link to="/" className="nav-logo">
           <img src="/images/logo-transparent.png" alt="logo" />
-        </div>
+        </Link>
         <List>
           {menus.map((m) => {
             if (!m.needConnection || (m.needConnection && props.user != null)) {
               return (
                 <ListItem onClick={closeNavbar} key={`c_nav_${m.text}`}>
                   <ListItemText>
-                    <Link to={m.link}>{m.text}</Link>
+                    <Link
+                      to={m.link}
+                      className={`link ${
+                        location.pathname == m.link ? "active" : ""
+                      }`}
+                    >
+                      {m.text}
+                    </Link>
                   </ListItemText>
                 </ListItem>
               );
@@ -95,9 +103,9 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
           >
             <MenuIcon />
           </IconButton>
-          <div className="nav-logo">
+          <Link to="/" className="nav-logo">
             <img src="/images/logo-transparent.png" alt="logo" />
-          </div>
+          </Link>
           <div className="nav-links">
             {props.user == null ? (
               <ListItem onClick={closeNavbar}>
