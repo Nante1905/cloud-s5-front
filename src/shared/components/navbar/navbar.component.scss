@@ -1,0 +1,58 @@
+@import "../../style/variables.module.scss";
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  padding-inline: 2%;
+  background-color: white;
+
+  .nav-logo {
+    width: 10rem;
+    display: grid;
+    place-content: center;
+    img {
+      width: 100%;
+    }
+  }
+  .nav-links {
+    width: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    .link {
+      height: 100%;
+      display: grid;
+      place-content: center;
+      &.active {
+        position: relative;
+        &::after {
+          content: "";
+          display: block;
+          width: calc(100% + 4rem);
+          height: 5px;
+          background-color: $primary;
+          position: absolute;
+          left: -2rem;
+          bottom: 0;
+          border-radius: 6px;
+          transition: all ease-in-out 0.5s;
+        }
+      }
+    }
+  }
+}
+.link,
+.special-link {
+  margin-inline: 2rem;
+  &.flex {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+.logout-link {
+  display: grid;
+  place-content: center;
+}

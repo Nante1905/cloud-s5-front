@@ -30,10 +30,6 @@ const theme = createTheme(
 
 const routes = createBrowserRouter([
   {
-    path: "/download",
-    element: <DownloadPage />,
-  },
-  {
     path: "",
     element: (
       <App>
@@ -44,6 +40,10 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/download",
+        element: <DownloadPage />,
       },
       {
         path: "/annonces",

@@ -85,7 +85,7 @@ const HistoriqueAnnonce = (props: HistoriqueProps) => {
         <Timeline>
           {props.historique.historiques.map((histo, index) => {
             const dot = renderDot(histo.status);
-            transition += 500;
+            transition += 400;
             return (
               <Zoom
                 in={true}
