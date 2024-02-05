@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: space-between;
   position: relative;
-  .landing-text {
+  .download-text {
     position: relative;
     margin-inline: 5%;
     width: 40%;
@@ -53,8 +53,9 @@
 @media (max-width: 600px) {
   .download-bg {
     background: #76a09e1c !important;
-    .landing-text {
-      width: 100%;
+    justify-content: center;
+    .download-text {
+      width: 80%;
     }
     .img-container {
       display: none !important;

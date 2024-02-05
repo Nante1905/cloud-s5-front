@@ -66,3 +66,29 @@
     }
   }
 }
+
+@media (max-width: 900px) {
+  .landing-bg {
+    background: url("/images/bg-parking-2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .landing-text {
+    background: #b0afafc7;
+    padding: 2rem;
+    border-radius: 15px;
+    .landing-title {
+      color: $secondary !important;
+    }
+    .content {
+      .text {
+        &::before {
+          background-color: $primary !important;
+        }
+      }
+    }
+  }
+  .landing-img {
+    display: none;
+  }
+}
