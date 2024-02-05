@@ -1,0 +1,13 @@
+.messagerie-root {
+  &_messages-container {
+    padding-left: 30%;
+    padding-bottom: 5%;
+  }
+
+  &_input-container {
+    position: fixed;
+    bottom: 0;
+    width: 80%;
+    background-color: #fff;
+  }
+}

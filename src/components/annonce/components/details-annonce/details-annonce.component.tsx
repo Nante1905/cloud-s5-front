@@ -11,14 +11,20 @@ import { Checkbox, IconButton, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
+import { useNavigate } from "react-router-dom";
 import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
+import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
 import { numberFormatter } from "../../../../shared/services/render.service";
 import { Annonce } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
-import { parseDate, toggleFavori } from "../../service/annonce.service";
+import {
+  getDiscussion,
+  parseDate,
+  toggleFavori,
+} from "../../service/annonce.service";
 import "./details-annonce.component.scss";
 dayjs.locale("fr");
 
@@ -33,6 +39,7 @@ interface DetailsAnnonceState {
   successMessage: string;
   favori: boolean;
   loadingLike: boolean;
+  openMessage: boolean;
 }
 
 const DetailsAnnonce = (props: DetailsAnnonceProps) => {
@@ -42,11 +49,14 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     errorMessage: "",
     openSuccess: false,
     successMessage: "",
-    favori: annonce.favori,
+    favori: false,
     loadingLike: false,
+    openMessage: false,
   };
   const [state, setState] = useState(initialState);
   const lastLike = useRef(annonce.favori);
+  const navigate = useNavigate();
+
   // TODO: ALANA ITO
   annonce.photos = [
     {
@@ -62,6 +72,13 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
       url: "/images/voiture1.jpg",
     },
   ];
+
+  useEffect(() => {
+    setState((state) => ({
+      ...state,
+      favori: props.annonce.favori,
+    }));
+  }, [props]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -125,6 +142,48 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
         }));
       });
   }, []);
+
+  const goToChat = (proprio: number) => {
+    setState((state) => ({
+      ...state,
+      openMessage: true,
+    }));
+    getDiscussion(proprio)
+      .then((res) => {
+        console.log(res);
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          navigate(`/messagerie?id=${response.data.idDiscussion}`);
+        } else {
+          setState((state) => ({
+            ...state,
+            openError: true,
+            error: response.err,
+            openMessage: false,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+
+        setState((state) => ({
+          ...state,
+          openError: true,
+          error: errorMessage,
+          openMessage: true,
+        }));
+      });
+  };
 
   return (
     <>
@@ -199,8 +258,16 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                   />
                 </Tooltip>
                 <Tooltip title="Contacter le vendeur" arrow>
-                  <IconButton>
-                    <ChatBubbleRounded />
+                  <IconButton
+                    onClick={() => goToChat(annonce.utilisateur.id as number)}
+                  >
+                    <AppLoaderComponent
+                      loading={state.openMessage}
+                      width="25px"
+                      heigth="25px"
+                    >
+                      <ChatBubbleRounded />
+                    </AppLoaderComponent>
                   </IconButton>
                 </Tooltip>
               </div>

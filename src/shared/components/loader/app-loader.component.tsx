@@ -14,7 +14,7 @@ const AppLoaderComponent = (props: AppLoaderProps) => {
   return (
     <>
       {props.loading ? (
-        <div className={"loader " + props?.className}>
+        <div className={"loader " + props?.className ? props.className : ""}>
           <CircularProgress
             style={
               props.width || props.heigth || props.color
