@@ -5,6 +5,7 @@ import { Badge, Card, Checkbox, IconButton, Tooltip } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { useNavigate } from "react-router-dom";
 import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
@@ -12,7 +13,11 @@ import { getErrorMessage } from "../../../../shared/services/api.service";
 import { numberFormatter } from "../../../../shared/services/render.service";
 import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
-import { parseDate, toggleFavori } from "../../service/annonce.service";
+import {
+  getDiscussion,
+  parseDate,
+  toggleFavori,
+} from "../../service/annonce.service";
 import "./annonce-card.component.scss";
 
 interface AnnonceCardProps {
@@ -42,6 +47,7 @@ const AnnonceCard = (props: AnnonceCardProps) => {
   const annonce = props.annonce;
   const lastFavori = useRef(annonce.favori);
   const [state, setState] = useState<AnnonceCardState>(initialState);
+  const navigate = useNavigate();
 
   // TODO: alana ito
   annonce.photos = [
@@ -130,6 +136,42 @@ const AnnonceCard = (props: AnnonceCardProps) => {
     }
   }, []);
 
+  const goToChat = (proprio: number) => {
+    getDiscussion(proprio)
+      .then((res) => {
+        console.log(res);
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          navigate(`/messagerie?id=${response.data.idDiscussion}`);
+        } else {
+          setState((state) => ({
+            ...state,
+            openError: true,
+            error: response.err,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+
+        setState((state) => ({
+          ...state,
+          openError: true,
+          error: errorMessage,
+        }));
+      });
+  };
+
   return (
     <>
       <div>
@@ -185,7 +227,9 @@ const AnnonceCard = (props: AnnonceCardProps) => {
               {props.likeable && (
                 <>
                   <Tooltip title="Contacter le vendeur" arrow>
-                    <IconButton>
+                    <IconButton
+                      onClick={() => goToChat(annonce.utilisateur.id as number)}
+                    >
                       <ChatBubbleRounded />
                     </IconButton>
                   </Tooltip>
