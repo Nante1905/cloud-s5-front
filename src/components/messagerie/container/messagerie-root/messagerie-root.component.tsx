@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import decodeToken from "../../../../shared/helpers/auth.helper";
 import { Discussion } from "../../../../shared/types/Discussion";
@@ -14,6 +15,7 @@ import "./messagerie-root.component.scss";
 
 const MessagerieRoot = () => {
   const [state, setState] = useState(initialState);
+  const [queryParam] = useSearchParams();
 
   const container = document.getElementById("bottom");
   useEffect(() => {
@@ -28,6 +30,7 @@ const MessagerieRoot = () => {
         setState((state) => ({
           ...state,
           discussions: res.data.data,
+          displayDiscussion: res.data.data,
           discussionLoading: false,
         }));
       })
@@ -64,6 +67,20 @@ const MessagerieRoot = () => {
       socket.off("new_message");
     };
   }, []);
+
+  useEffect(() => {
+    if (queryParam.has("id")) {
+      const id = queryParam.get("id") as string;
+      const discussion = state.displayDiscussion.find((d) => d.id === id);
+      console.log(discussion);
+      if (discussion) {
+        handleDiscussionChange(
+          id,
+          discussion.gauche.prenom + " " + discussion.gauche.nom
+        );
+      }
+    }
+  }, [state.displayDiscussion]);
 
   useEffect(() => {
     socket.on(
@@ -309,6 +326,7 @@ interface MessagerieRootState {
   messagesPage: number;
   loadingMore: boolean;
   scrollMessages: boolean;
+  displayDiscussion: Discussion[];
 }
 
 const initialState: MessagerieRootState = {
@@ -325,4 +343,5 @@ const initialState: MessagerieRootState = {
   messagesPage: 1,
   loadingMore: false,
   scrollMessages: false,
+  displayDiscussion: [],
 };
