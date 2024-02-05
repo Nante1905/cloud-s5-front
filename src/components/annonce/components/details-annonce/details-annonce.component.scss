@@ -1,7 +1,6 @@
 @import "/src/shared/style/variables.module.scss";
 
 .details-annonce {
-  margin-top: 5%;
   .thumbs-wrapper {
     margin: auto !important;
     width: fit-content;
@@ -13,25 +12,25 @@
     position: relative;
   }
   .liking-gif {
-    // width: 40% !important;
-    // width: 0%;
-    // &.action {
-    //   transition: all ease-in-out 1.2s;
-    //   width: 100%;
-    // }
     left: 0 !important;
   }
+}
+.info-container {
+  height: inherit;
 }
 .card_annonce {
   width: 80%;
   margin: auto;
   background: $primary-pale;
   border-radius: 15px;
+
+  height: 80%;
+  overflow-y: scroll;
 }
 .info_header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   .MuiCheckbox-root.Mui-checked {
     color: #ca4e4e !important;
   }

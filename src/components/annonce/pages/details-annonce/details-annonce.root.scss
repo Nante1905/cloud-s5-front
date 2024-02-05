@@ -2,6 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: wrap;
+  padding-left: 3%;
+  height: calc(100% - 5% - 1rem);
+  margin-top: 5%;
   & > * {
     width: 50%;
   }
@@ -14,5 +18,32 @@
   }
   p {
     margin: 0;
+  }
+}
+.details-annonce-wrapper {
+  height: inherit;
+  // overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .details-annonce {
+    justify-content: center !important;
+    gap: 1rem;
+    padding-left: 0;
+    height: 100%;
+
+    .img-container {
+      width: 100%;
+      padding-inline: 2%;
+    }
+    .info-container {
+      width: 90%;
+      margin-bottom: 3rem;
+      height: auto !important;
+    }
+    .card_annonce {
+      height: inherit !important;
+      margin-bottom: 2rem;
+    }
   }
 }
