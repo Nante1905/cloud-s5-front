@@ -1,3 +1,4 @@
+import { Chip } from "@mui/material";
 import { useRef } from "react";
 import { Discussion } from "../../../../shared/types/Discussion";
 import "./discussion-card.component.scss";
@@ -38,7 +39,14 @@ const DiscussionCardComponent = (props: DiscussionCardComponentProps) => {
           </h3>
         </div>
         <div className="message-preview">
-          <p>{props.discussion.lastMessage.contenu}</p>
+          <p>
+            {props.discussion.newMessage ? (
+              <Chip color="secondary" size="small" label="new" />
+            ) : (
+              <></>
+            )}
+            {" " + props.discussion.lastMessage.contenu}
+          </p>
         </div>
       </div>
     </div>

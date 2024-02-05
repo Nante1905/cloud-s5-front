@@ -8,4 +8,6 @@ export interface Discussion {
   gauche: Utilisateur;
   droite: Utilisateur;
   lastMessage: Message;
+
+  newMessage?: boolean;
 }

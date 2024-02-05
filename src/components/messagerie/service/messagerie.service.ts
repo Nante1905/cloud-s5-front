@@ -4,7 +4,8 @@ export const findAllDiscussions = () => http.get("/discussions");
 export const findMessageOf = (
   id: string,
   pageNumber: number,
-  pageSize: number
+  pageSize: number,
+  extraSkip: number
 ) =>
   http.post("/message", {
     chatId: id,
@@ -12,6 +13,7 @@ export const findMessageOf = (
       numero: pageNumber,
       taillePage: pageSize,
     },
+    extraSkip,
   });
 
 export const sendMessage = (chatId: string, message: string) =>

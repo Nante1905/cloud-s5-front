@@ -19,5 +19,11 @@
     background-color: #86b4ea29;
     padding-bottom: 2rem;
     min-height: calc(100vh - 200px);
+    padding-top: 2rem;
+
+    .btn {
+      display: flex;
+      justify-content: center;
+    }
   }
 }

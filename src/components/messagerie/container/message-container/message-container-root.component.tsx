@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Button } from "@mui/material";
+import { useEffect, useMemo, useRef } from "react";
 import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
 import decodeToken from "../../../../shared/helpers/auth.helper";
 import { Message } from "../../../../shared/types/Message";
-import { socket } from "../../../../socket";
 import MessageBulleComponent from "../../components/message-bulle/message-bulle.component";
 import MessageInputComponent from "../../components/message-input/message-input.component";
-import { sendMessage } from "../../service/messagerie.service";
 import "./message-container-root.component.scss";
 
 interface MessageContainerRootProps {
@@ -13,6 +12,10 @@ interface MessageContainerRootProps {
   chatId: string;
   headName: string;
   loading?: boolean;
+  loadingMore?: boolean;
+  scroll?: boolean;
+  send: (message: string, chatId: string) => void;
+  loadMore: () => void;
 }
 
 const MessageContainerRoot = (props: MessageContainerRootProps) => {
@@ -22,122 +25,11 @@ const MessageContainerRoot = (props: MessageContainerRootProps) => {
   const messages = useRef<HTMLDivElement>(null);
   const end = useRef<HTMLDivElement>(null);
 
-  const [state, setState] = useState<MessageContainerRootState>({
-    ...initialState,
-  });
-
-  useEffect(() => {
-    setState((state) => ({
-      ...state,
-      messages: props.messages,
-    }));
-  }, [props]);
-
   useEffect(() => {
     if (messages.current) {
       end.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [state.messages]);
-
-  useEffect(() => {
-    socket.on(
-      "message_received",
-      (data: { message: string; discussionId: string; idExpedit: string }) => {
-        console.log(data);
-        console.log("curent", props.chatId);
-
-        if (data.discussionId == props.chatId) {
-          console.log("message_received");
-          const newMessage: Message = {
-            messageId: "",
-            expediteurId: Number(data.idExpedit),
-            destinataireId: 0,
-            contenu: data.message,
-            dateEnvoi: new Date().toISOString(),
-            type: 0,
-          };
-          setState((state) => ({
-            ...state,
-            messages: [newMessage, ...state.messages],
-          }));
-        }
-      }
-    );
-    return () => {
-      socket.off("message_received");
-    };
-  }, [props.chatId]);
-
-  const handleSendMessage = (message: string, chatId: string) => {
-    if (chatId === "") {
-    }
-    const newMessage: Message = {
-      messageId: "",
-      expediteurId: decodeToken().id,
-      destinataireId: 0,
-      contenu: message,
-      dateEnvoi: new Date().toISOString(),
-      type: 0,
-      status: 0,
-    };
-    console.log(message, chatId);
-    setState((state) => ({
-      ...state,
-      messages: [newMessage, ...state.messages],
-    }));
-
-    // TODO: dev mode only
-    // setTimeout(() => {
-    //   socket.emit("send_message", {
-    //     message: message,
-    //     discussionId: chatId,
-    //     idExpedit: decodeToken().id,
-    //   });
-    //   setState((state) => ({
-    //     ...state,
-    //     messages: state.messages.map((message) => {
-    //       if (message.status === 0) {
-    //         message.status = 5;
-    //       }
-    //       return message;
-    //     }),
-    //   }));
-    // }, 1000);
-
-    sendMessage(chatId, message)
-      .then((_res) => {
-        console.log(_res);
-
-        socket.emit("send_message", {
-          message: message,
-          discussionId: chatId,
-          idExpedit: decodeToken().id,
-        });
-        if (_res.data.ok) {
-          setState((state) => ({
-            ...state,
-            messages: state.messages.map((message) => {
-              if (message.status === 0) {
-                message.status = 5;
-              }
-              return message;
-            }),
-          }));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setState((state) => ({
-          ...state,
-          messages: state.messages.map((message) => {
-            if (message.status === 0) {
-              message.status = -5;
-            }
-            return message;
-          }),
-        }));
-      });
-  };
+  }, [props.scroll]);
 
   return (
     <div className="message-container-root">
@@ -147,7 +39,23 @@ const MessageContainerRoot = (props: MessageContainerRootProps) => {
             <h2>{props?.headName}</h2>
           </div>
           <div className="messages" ref={messages}>
-            {state.messages
+            {props.messages.length > 0 ? (
+              <div className="btn">
+                <AppLoaderComponent loading={props?.loadingMore as boolean}>
+                  <Button
+                    variant="outlined"
+                    onClick={(_event) => {
+                      props.loadMore();
+                    }}
+                  >
+                    Voir plus
+                  </Button>
+                </AppLoaderComponent>
+              </div>
+            ) : (
+              <></>
+            )}
+            {props.messages
               ?.slice()
               .reverse()
               .map((message, index) => (
@@ -166,7 +74,7 @@ const MessageContainerRoot = (props: MessageContainerRootProps) => {
           chatId={props.chatId}
           onSend={(message) => {
             console.log(message, props.chatId);
-            handleSendMessage(message, props.chatId);
+            props.send(message, props.chatId);
           }}
         />
       </div>
