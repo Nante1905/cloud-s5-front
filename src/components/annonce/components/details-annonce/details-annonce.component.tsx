@@ -166,6 +166,15 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                   {" "}
                   {annonce.dateCreation ? parseDate(annonce.dateCreation) : ""}
                 </small>
+                <div className="div_info_item">
+                  <div>
+                    <strong>Prix: </strong>
+                    <span>
+                      <u>{annonce.prix.toLocaleString()} MGA</u>
+                    </span>
+                  </div>
+                  <ChipStatusAnnonce status={annonce.status} />
+                </div>
               </div>
               <div className="icon-action">
                 <Tooltip title={"Nombre de vues"} arrow>
@@ -197,15 +206,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
               </div>
             </div>
           </div>
-          <div className="div_info_item">
-            <div>
-              <strong>Prix: </strong>
-              <span>
-                <u>{annonce.prix.toLocaleString()} MGA</u>
-              </span>
-            </div>
-            <ChipStatusAnnonce status={annonce.status} />
-          </div>
+
           <div className="div_info_item_no_flex">
             <p
               dangerouslySetInnerHTML={{

@@ -12,13 +12,13 @@ const LandingPage = () => {
           <div className="text">
             <h1 className="landing-title primary-text">
               {" "}
-              <div></div> Bienvenue!
+              <div></div> Bienvenue sur Sera Vaika!
             </h1>
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id
-              exercitationem molestias, nisi consectetur nihil cumque quisquam
-              expedita, accusantium ducimus omnis quaerat maxime eos natus quo,
-              facilis sit laborum. Iste, perferendis.
+              Vendez ou achetez votre véhicule d'occasion en toute confiance sur
+              notre plateforme simple et sécurisée. Découvrez un large choix de
+              voitures d'occasion à tous les prix et trouvez celle qui vous
+              correspond.
             </p>
           </div>
           <div className="div-action">

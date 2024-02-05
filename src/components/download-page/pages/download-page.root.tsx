@@ -5,7 +5,7 @@ import "./download-page.root.scss";
 const DownloadPage = () => {
   return (
     <div className="download-bg">
-      <div className="landing-text">
+      <div className="download-text">
         <div className="content">
           <div className="text">
             <h1 className="landing-title primary-text">
