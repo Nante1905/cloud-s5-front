@@ -1,0 +1,35 @@
+@import "../../style/variables.module.scss";
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 4rem;
+  padding-inline: 2%;
+  background-color: white;
+  .nav-logo {
+    width: 10rem;
+    display: grid;
+    place-content: center;
+    img {
+      width: 100%;
+    }
+  }
+  .nav-links {
+    width: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+.link {
+  margin-inline: 2rem;
+  &.flex {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+.logout-link {
+  display: grid;
+  place-content: center;
+}
