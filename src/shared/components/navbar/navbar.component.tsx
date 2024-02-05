@@ -38,7 +38,7 @@ const Navbar = () => {
     },
     {
       text: "Messages",
-      link: "",
+      link: "/messagerie",
       needConnection: true,
     },
   ];

@@ -13,6 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { useNavigate } from "react-router-dom";
 import ChipStatusAnnonce from "../../../../shared/components/chip-status-annonce/chip-status-annonce.component";
+import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import { getErrorMessage } from "../../../../shared/services/api.service";
@@ -38,6 +39,7 @@ interface DetailsAnnonceState {
   successMessage: string;
   favori: boolean;
   loadingLike: boolean;
+  openMessage: boolean;
 }
 
 const DetailsAnnonce = (props: DetailsAnnonceProps) => {
@@ -49,6 +51,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     successMessage: "",
     favori: false,
     loadingLike: false,
+    openMessage: false,
   };
   const [state, setState] = useState(initialState);
   const lastLike = useRef(annonce.favori);
@@ -141,6 +144,10 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
   }, []);
 
   const goToChat = (proprio: number) => {
+    setState((state) => ({
+      ...state,
+      openMessage: true,
+    }));
     getDiscussion(proprio)
       .then((res) => {
         console.log(res);
@@ -152,6 +159,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             ...state,
             openError: true,
             error: response.err,
+            openMessage: false,
           }));
         }
       })
@@ -172,6 +180,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
           ...state,
           openError: true,
           error: errorMessage,
+          openMessage: true,
         }));
       });
   };
@@ -252,7 +261,13 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                   <IconButton
                     onClick={() => goToChat(annonce.utilisateur.id as number)}
                   >
-                    <ChatBubbleRounded />
+                    <AppLoaderComponent
+                      loading={state.openMessage}
+                      width="25px"
+                      heigth="25px"
+                    >
+                      <ChatBubbleRounded />
+                    </AppLoaderComponent>
                   </IconButton>
                 </Tooltip>
               </div>
