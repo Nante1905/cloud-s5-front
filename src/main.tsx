@@ -17,6 +17,7 @@ import LandingPage from "./components/landing-page/pages/landing-page.root.tsx";
 import LoginPage from "./components/login/pages/login.root.tsx";
 import MessagerieRoot from "./components/messagerie/container/messagerie-root/messagerie-root.component.tsx";
 import "./index.css";
+import LoginProtection from "./shared/components/guards/login-protection/login-protection.component.tsx";
 import { store } from "./shared/store/store.ts";
 
 dayjs.locale("fr");
@@ -57,15 +58,27 @@ const routes = createBrowserRouter([
       },
       {
         path: "/messagerie",
-        element: <MessagerieRoot />,
+        element: (
+          <LoginProtection>
+            <MessagerieRoot />
+          </LoginProtection>
+        ),
       },
       {
         path: "/favoris",
-        element: <ListeFavoriRoot />,
+        element: (
+          <LoginProtection>
+            <ListeFavoriRoot />
+          </LoginProtection>
+        ),
       },
       {
         path: "/historique",
-        element: <MesAnnoncesRoot />,
+        element: (
+          <LoginProtection>
+            <MesAnnoncesRoot />
+          </LoginProtection>
+        ),
       },
       {
         path: "/annonces/:id",
@@ -73,7 +86,11 @@ const routes = createBrowserRouter([
       },
       {
         path: "/annonces/:id/historique",
-        element: <HistoriqueAnnonceRoot />,
+        element: (
+          <LoginProtection>
+            <HistoriqueAnnonceRoot />
+          </LoginProtection>
+        ),
       },
     ],
   },

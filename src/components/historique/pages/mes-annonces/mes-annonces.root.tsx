@@ -125,7 +125,7 @@ const MesAnnoncesRoot = () => {
               />
             ))}
             {state.endScrolling && state.annonces.length == 0 && (
-              <p>Aucune annonce</p>
+              <p className="text-center">Aucune annonce</p>
             )}
           </div>
         </InfiniteScroll>

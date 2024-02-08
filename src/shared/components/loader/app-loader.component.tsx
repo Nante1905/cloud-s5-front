@@ -14,12 +14,13 @@ const AppLoaderComponent = (props: AppLoaderProps) => {
   return (
     <>
       {props.loading ? (
-        <div className={"loader " + props?.className ? props.className : ""}>
+        <div className={`loader ${props?.className ? props.className : ""}`}>
           <CircularProgress
+            className="secondary-text"
             style={
               props.width || props.heigth || props.color
                 ? {
-                    color: props?.color,
+                    color: `${props?.color} !important`,
                     width: props?.width,
                     height: props?.heigth,
                   }

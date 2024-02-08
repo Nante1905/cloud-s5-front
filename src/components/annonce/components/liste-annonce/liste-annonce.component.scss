@@ -6,6 +6,10 @@
   grid-template-columns: repeat(auto-fit, 20rem);
   justify-content: center;
   gap: 2rem;
+  background-color: red;
+  p {
+    text-align: center !important;
+  }
   .MuiBadge-root {
     width: 100%;
   }

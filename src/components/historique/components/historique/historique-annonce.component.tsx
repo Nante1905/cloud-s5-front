@@ -18,14 +18,11 @@ interface HistoriqueProps {
   historique: Historique;
 }
 
-interface RenderIcon {
-  icon: JSX.Element;
-  color: string;
-}
-
 dayjs.locale("fr");
 
 const renderDot = (status: string) => {
+  console.log(status);
+
   if (status == "Création") {
     return {
       icon: <CreateIcon />,
@@ -38,7 +35,7 @@ const renderDot = (status: string) => {
       color: "div-success",
     };
   }
-  if (status == "Refus") {
+  if (status.includes("Refus")) {
     return {
       icon: <GppBadIcon />,
       color: "div-danger",
@@ -60,6 +57,7 @@ const renderDot = (status: string) => {
 
 const HistoriqueAnnonce = (props: HistoriqueProps) => {
   let transition = 0;
+
   return (
     <>
       <div className="annonce_info">
@@ -93,8 +91,9 @@ const HistoriqueAnnonce = (props: HistoriqueProps) => {
                   transitionDelay: `${transition}ms`,
                   transition: "ease-in-out 0.3s",
                 }}
+                key={`historique_${index}`}
               >
-                <TimelineItem key={`historique_${index}`}>
+                <TimelineItem>
                   <TimelineSeparator>
                     <TimelineDot className={dot?.color}>
                       {dot?.icon}
