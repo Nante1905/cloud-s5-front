@@ -3,6 +3,9 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import { Button } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
+import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import Title from "../../../../shared/components/title/title.component";
 import { TAILLE_PAGE } from "../../../../shared/constants/constants";
@@ -17,8 +20,8 @@ import { Categorie } from "../../../../shared/types/Categorie";
 import { Marque } from "../../../../shared/types/Marque";
 import { Modele } from "../../../../shared/types/Modele";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
+import AnnonceCard from "../../components/annonce-card/annonce-card.component";
 import FiltreBar from "../../components/filtre-bar/filtre-bar.component";
-import ListeAnnonce from "../../components/liste-annonce/liste-annonce.component";
 import { filtreAnnonce } from "../../service/annonce.service";
 import { FiltreRequest, initialFiltre } from "../../types/filtre.type";
 import "./liste-annonce.root.scss";
@@ -64,6 +67,7 @@ const initialState: ListeAnnonceRootState = {
 const ListeAnnonceRoot = () => {
   const [state, setState] = useState<ListeAnnonceRootState>(initialState);
   const initialized = useRef(false);
+  const navigate = useNavigate();
 
   const handleScrollUp = (currentScroll: number, previousScroll: number) => {
     if (currentScroll < previousScroll) {
@@ -107,7 +111,7 @@ const ListeAnnonceRoot = () => {
             ...state,
             annonces: [...annonces, ...(res.data?.data as AnnonceGeneral[])],
             annonceLoading: false,
-            page: state.page + 1,
+            page: page + 1,
             endScrolling: response.data.length < TAILLE_PAGE,
           }));
         }
@@ -148,8 +152,12 @@ const ListeAnnonceRoot = () => {
     // TODO: juste pour éviter qu'USeEffect se réexecute en env dev fa jsp en prod otrn tsy manao check intsony React.StrictMode
     if (initialized.current == false) {
       console.log("sending request");
-      fetchAnnonce();
+      fetchAnnonce(initialFiltre, 1, []);
       initialized.current = true;
+      setState((state) => ({
+        ...state,
+        page: 1,
+      }));
     }
     window.history.scrollRestoration = "manual";
 
@@ -335,11 +343,43 @@ const ListeAnnonceRoot = () => {
             )}
           </Button>
         </div>
-        <ListeAnnonce
+        {/* <ListeAnnonce
           annonces={state.annonces}
           fetchData={fetchAnnonce}
           endScrolling={state.endScrolling}
-        />
+        /> */}
+        <InfiniteScroll
+          dataLength={state.annonces.length}
+          next={() => fetchAnnonce()}
+          hasMore={true}
+          scrollThreshold={0.9}
+          loader={
+            state.endScrolling ? (
+              <p className="text-center p_end_scroll">
+                Vous avez atteint la fin.
+              </p>
+            ) : (
+              <AppLoaderComponent loading={state.endScrolling == false}>
+                <></>
+              </AppLoaderComponent>
+            )
+          }
+        >
+          <div className="liste-annonce">
+            {state.annonces?.map((annonce, index) => (
+              <AnnonceCard
+                key={`${annonce.reference}-${index}`}
+                annonce={annonce}
+                likeable
+                showStatus={false}
+                onClick={() => navigate(`${annonce.id}`)}
+              />
+            ))}
+            {state.endScrolling && state.annonces.length == 0 && (
+              <p>Aucune annonce</p>
+            )}
+          </div>
+        </InfiniteScroll>
       </div>
       <ErrorSnackBar
         open={state.openError}

@@ -9,6 +9,7 @@ import DiscussionListComponent from "../../components/discussion-list/discussion
 import {
   findAllDiscussions,
   findMessageOf,
+  sendMessage,
 } from "../../service/messagerie.service";
 import MessageContainerRoot from "../message-container/message-container-root.component";
 import "./messagerie-root.component.scss";
@@ -66,6 +67,10 @@ const MessagerieRoot = () => {
     return () => {
       socket.off("new_message");
     };
+  }, []);
+
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
   }, []);
 
   useEffect(() => {
@@ -140,57 +145,57 @@ const MessagerieRoot = () => {
     }));
 
     // TODO: dev mode only
-    setTimeout(() => {
-      socket.emit("send_message", {
-        message: message,
-        discussionId: chatId,
-        idExpedit: decodeToken().id,
-      });
-      setState((state) => ({
-        ...state,
-        messages: state.messages.map((message) => {
-          if (message.status === 0) {
-            message.status = 5;
-          }
-          return message;
-        }),
-        messageSent: state.messageSent + 1,
-      }));
-    }, 1000);
-
-    // sendMessage(chatId, message)
-    //   .then((_res) => {
-    //     console.log(_res);
-
-    //     socket.emit("send_message", {
-    //       message: message,
-    //       discussionId: chatId,
-    //       idExpedit: decodeToken().id,
-    //     });
-    //     if (_res.data.ok) {
-    //       setState((state) => ({
-    //         ...state,
-    //         messages: state.messages.map((message) => {
-    //           if (message.status === 0) {
-    //             message.status = 5;
-    //           }
-    //           return message;
-    //         }),
-    //       }));
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setState((state) => ({
-    //       ...state,
-    //       messages: state.messages.map((message) => {
-    //         if (message.status === 0) {
-    //           message.status = -5;
-    //         }
-    //         return message;
-    //       }),
-    //     }));
+    // setTimeout(() => {
+    //   socket.emit("send_message", {
+    //     message: message,
+    //     discussionId: chatId,
+    //     idExpedit: decodeToken().id,
     //   });
+    //   setState((state) => ({
+    //     ...state,
+    //     messages: state.messages.map((message) => {
+    //       if (message.status === 0) {
+    //         message.status = 5;
+    //       }
+    //       return message;
+    //     }),
+    //     messageSent: state.messageSent + 1,
+    //   }));
+    // }, 1000);
+
+    sendMessage(chatId, message)
+      .then((_res) => {
+        console.log(_res);
+
+        socket.emit("send_message", {
+          message: message,
+          discussionId: chatId,
+          idExpedit: decodeToken().id,
+        });
+        if (_res.data.ok) {
+          setState((state) => ({
+            ...state,
+            messages: state.messages.map((message) => {
+              if (message.status === 0) {
+                message.status = 5;
+              }
+              return message;
+            }),
+          }));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setState((state) => ({
+          ...state,
+          messages: state.messages.map((message) => {
+            if (message.status === 0) {
+              message.status = -5;
+            }
+            return message;
+          }),
+        }));
+      });
   };
 
   const handleDiscussionChange = useCallback(

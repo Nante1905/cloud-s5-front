@@ -66,6 +66,7 @@ const Navbar = () => {
                   return (
                     <Link
                       to={m.link}
+                      replace
                       className={`link ${
                         location.pathname == m.link ? "active" : ""
                       }`}
@@ -77,7 +78,7 @@ const Navbar = () => {
                 }
               })}
               {user == null ? (
-                <Link to="/login" className="link" key={`nav_login`}>
+                <Link to="/login" className="link" key={`nav_login`} replace>
                   Se connecter
                 </Link>
               ) : (

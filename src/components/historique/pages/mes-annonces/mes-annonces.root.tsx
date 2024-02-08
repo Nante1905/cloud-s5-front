@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router-dom";
+import AppLoaderComponent from "../../../../shared/components/loader/app-loader.component";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import Title from "../../../../shared/components/title/title.component";
 import { TAILLE_PAGE } from "../../../../shared/constants/constants";
 import { getErrorMessage } from "../../../../shared/services/api.service";
 import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
-import MesAnnonces from "../../components/mes-annonces.component";
+import AnnonceCard from "../../../annonce/components/annonce-card/annonce-card.component";
 import { findMyAnnonces } from "../../service/historique.service";
 
 interface MesAnnoncesRootState {
@@ -25,6 +28,7 @@ const initialState: MesAnnoncesRootState = {
 };
 
 const MesAnnoncesRoot = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState(initialState);
   const initialized = useRef(false);
 
@@ -47,7 +51,7 @@ const MesAnnoncesRoot = () => {
           setState((state) => ({
             ...state,
             annonces: [...annonces, ...(res.data?.data as AnnonceGeneral[])],
-            page: state.page + 1,
+            page: page,
             endScrolling: response.data.length < TAILLE_PAGE,
           }));
         }
@@ -74,12 +78,17 @@ const MesAnnoncesRoot = () => {
   };
 
   useEffect(() => {
-    // TODO: remove in prod
+    console.log("re render");
+
     if (initialized.current == false) {
-      console.log("sending requests");
-      fetchAnnonce();
+      fetchAnnonce(1);
       initialized.current = true;
+      setState((state) => ({
+        ...state,
+        page: 1,
+      }));
     }
+
     window.history.scrollRestoration = "manual";
   });
 
@@ -87,11 +96,39 @@ const MesAnnoncesRoot = () => {
     <>
       <div>
         <Title>Vos annonces</Title>
-        <MesAnnonces
-          annonces={state.annonces}
-          fetchData={fetchAnnonce}
-          endScrolling={state.endScrolling}
-        />
+
+        <InfiniteScroll
+          dataLength={state.annonces.length}
+          next={() => fetchAnnonce(state.page + 1)}
+          hasMore={true}
+          scrollThreshold={0.9}
+          loader={
+            state.endScrolling ? (
+              <p className="text-center p_end_scroll">
+                Vous avez atteint la fin.
+              </p>
+            ) : (
+              <AppLoaderComponent loading={state.endScrolling == false}>
+                <></>
+              </AppLoaderComponent>
+            )
+          }
+        >
+          <div className="liste-annonce">
+            {state.annonces?.map((annonce, index) => (
+              <AnnonceCard
+                key={`${annonce.reference}-${index}`}
+                annonce={annonce}
+                likeable={false}
+                showStatus={true}
+                onClick={() => navigate(`/annonces/${annonce.id}/historique`)}
+              />
+            ))}
+            {state.endScrolling && state.annonces.length == 0 && (
+              <p>Aucune annonce</p>
+            )}
+          </div>
+        </InfiniteScroll>
       </div>
       <ErrorSnackBar
         open={state.openError}

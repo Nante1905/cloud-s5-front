@@ -62,6 +62,7 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
                   <ListItemText>
                     <Link
                       to={m.link}
+                      replace
                       className={`link ${
                         location.pathname == m.link ? "active" : ""
                       }`}
@@ -76,7 +77,7 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
           {props.user == null ? (
             <ListItem onClick={closeNavbar}>
               <ListItemText>
-                <Link to="/login" key={`nav_login`}>
+                <Link to="/login" key={`nav_login`} replace>
                   Se connecter
                 </Link>
               </ListItemText>
@@ -95,6 +96,7 @@ const CollapsedNavbar = (props: CollapsedNavbarProps) => {
                   className="logout-link"
                   key={`nav_login`}
                   onClick={logOut}
+                  replace
                 >
                   <LogoutIcon />
                 </Link>
