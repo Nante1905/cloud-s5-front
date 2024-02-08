@@ -60,13 +60,15 @@ const ListeFavoriRoot = () => {
         }
       })
       .catch((err) => {
+        console.log(err);
+
         let errorMessage = "";
-        if (err.response.status == 403) {
+        if (err.response?.status == 403) {
           errorMessage = "Connectez vous pour voir vos favoris.";
         } else if (
-          !err.response.data.err ||
-          err.response.data.err == "" ||
-          err.response.data.err == null
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
         ) {
           errorMessage = getErrorMessage(err.code);
         } else {
@@ -126,7 +128,7 @@ const ListeFavoriRoot = () => {
               />
             ))}
             {state.endScrolling && state.annonces.length == 0 && (
-              <p>Aucune annonce</p>
+              <p className="text-center">Aucune annonce</p>
             )}
           </div>
         </InfiniteScroll>

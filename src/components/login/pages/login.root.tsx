@@ -9,8 +9,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AppLoaderComponent from "../../../shared/components/loader/app-loader.component";
 import { getErrorMessage } from "../../../shared/services/api.service";
 import "../../../shared/style/global.scss";
@@ -45,6 +45,19 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const location = useLocation();
+  let showMessage =
+    (location?.state as { showMessage: boolean })?.showMessage || false;
+
+  useEffect(() => {
+    console.log("redirection ", showMessage);
+    if (showMessage) {
+      setState((state) => ({
+        ...state,
+        error: "Veuillez vous connecter pour continuer",
+      }));
+    }
+  });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     console.log(state.form.password);

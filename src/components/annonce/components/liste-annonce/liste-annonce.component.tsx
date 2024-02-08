@@ -26,7 +26,11 @@ const ListeAnnonce = (props: ListeAnnonceProps) => {
               Vous avez atteint la fin.
             </p>
           ) : (
-            <AppLoaderComponent loading={props.endScrolling == false}>
+            <AppLoaderComponent
+              loading={props.endScrolling == false}
+              width="30px"
+              heigth="30px"
+            >
               <></>
             </AppLoaderComponent>
           )
@@ -43,7 +47,7 @@ const ListeAnnonce = (props: ListeAnnonceProps) => {
             />
           ))}
           {props.endScrolling && props.annonces.length == 0 && (
-            <p>Aucune annonce</p>
+            <p className="text-center">Aucune annonce</p>
           )}
         </div>
       </InfiniteScroll>
