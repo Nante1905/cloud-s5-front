@@ -5,7 +5,7 @@
 .liste-annonce {
   margin-top: 5%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, auto));
+  grid-template-columns: repeat(auto-fit, 20rem);
   justify-content: center;
   gap: 2rem;
 

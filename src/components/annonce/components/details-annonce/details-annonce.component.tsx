@@ -40,6 +40,8 @@ interface DetailsAnnonceState {
   successMessage: string;
   favori: boolean;
   loadingLike: boolean;
+  showLike: boolean;
+  loadingDislike: boolean;
   openMessage: boolean;
 }
 
@@ -52,6 +54,8 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     successMessage: "",
     favori: false,
     loadingLike: false,
+    showLike: false,
+    loadingDislike: false,
     openMessage: false,
   };
   const [state, setState] = useState(initialState);
@@ -70,14 +74,25 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     setTimeout(() => {
       setState((state) => ({
         ...state,
-        loadingLike: false,
+        showLike: false,
       }));
     }, 1500);
-  }, [state.loadingLike]);
+  }, [state.showLike]);
 
   const onToggleLike = useCallback(() => {
     console.log("toggle ", lastLike.current);
 
+    if (lastLike.current == true) {
+      setState((state) => ({
+        ...state,
+        loadingDislike: true,
+      }));
+    } else {
+      setState((state) => ({
+        ...state,
+        loadingDislike: true,
+      }));
+    }
     toggleFavori(annonce.id)
       .then((res) => {
         console.log(res);
@@ -88,7 +103,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
           if (lastLike.current == false) {
             setState((state) => ({
               ...state,
-              loadingLike: true,
+              showLike: true,
             }));
           }
           setState((state) => ({
@@ -96,6 +111,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             successMessage: response.message,
             openSuccess: true,
             favori: !state.favori,
+            loadingDislike: false,
           }));
           lastLike.current = !lastLike.current;
         } else {
@@ -103,6 +119,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             ...state,
             errorMessage: response.err,
             openError: true,
+            loadingDislike: false,
           }));
         }
       })
@@ -192,7 +209,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             ))}
           </Carousel>
         )}
-        <div className={`liking-gif ${state.loadingLike ? "action" : ""} `}>
+        <div className={`liking-gif ${state.showLike ? "action" : ""} `}>
           <img src="/images/hearts-heart.gif" alt="" />
         </div>
       </div>
@@ -236,12 +253,18 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                   }
                   arrow
                 >
-                  <Checkbox
-                    icon={<FavoriteBorder fontSize="large" />}
-                    checkedIcon={<Favorite fontSize="large" />}
-                    onChange={onToggleLike}
-                    checked={state.favori}
-                  />
+                  <AppLoaderComponent
+                    loading={state.loadingLike || state.loadingDislike}
+                    width="25px"
+                    heigth="25px"
+                  >
+                    <Checkbox
+                      icon={<FavoriteBorder fontSize="large" />}
+                      checkedIcon={<Favorite fontSize="large" />}
+                      onChange={onToggleLike}
+                      checked={state.favori}
+                    />
+                  </AppLoaderComponent>
                 </Tooltip>
                 <Tooltip title="Contacter le vendeur" arrow>
                   <IconButton
