@@ -11,15 +11,13 @@
   .img-container {
     position: relative;
     img {
-      max-height: 50%;
+      max-height: 30rem;
     }
-    // .carousel-root {
-    //   .slide {
-    //     div {
-    //       height: auto !important;
-    //     }
-    //   }
-    // }
+    .thumb {
+      img {
+        height: 5rem;
+      }
+    }
   }
   .liking-gif {
     left: 0 !important;
