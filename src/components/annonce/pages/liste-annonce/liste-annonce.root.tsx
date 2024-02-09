@@ -295,6 +295,7 @@ const ListeAnnonceRoot = () => {
       annonces: [],
       page: 1,
       filtre: form,
+      annonceLoading: true,
     }));
     console.log(state.page);
 
@@ -359,7 +360,9 @@ const ListeAnnonceRoot = () => {
                 Vous avez atteint la fin.
               </p>
             ) : (
-              <AppLoaderComponent loading={state.endScrolling == false}>
+              <AppLoaderComponent
+                loading={state.endScrolling == false || state.annonceLoading}
+              >
                 <></>
               </AppLoaderComponent>
             )

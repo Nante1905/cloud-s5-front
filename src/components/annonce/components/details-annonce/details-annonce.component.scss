@@ -10,6 +10,16 @@
   }
   .img-container {
     position: relative;
+    img {
+      max-height: 50%;
+    }
+    // .carousel-root {
+    //   .slide {
+    //     div {
+    //       height: auto !important;
+    //     }
+    //   }
+    // }
   }
   .liking-gif {
     left: 0 !important;
