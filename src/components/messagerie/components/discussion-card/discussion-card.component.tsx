@@ -45,7 +45,7 @@ const DiscussionCardComponent = (props: DiscussionCardComponentProps) => {
             ) : (
               <></>
             )}
-            {" " + props.discussion.lastMessage.contenu}
+            {" " + props.discussion.lastMessage?.contenu}
           </p>
         </div>
       </div>
