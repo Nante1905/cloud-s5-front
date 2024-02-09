@@ -1,9 +1,11 @@
 @import "/src/shared/style/variables.module.scss";
-
+.annonces-container {
+  padding-inline: 2%;
+}
 .liste-annonce {
   margin-top: 5%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 20rem);
+  grid-template-columns: repeat(auto-fit, minmax(20rem, auto));
   justify-content: center;
   gap: 2rem;
 

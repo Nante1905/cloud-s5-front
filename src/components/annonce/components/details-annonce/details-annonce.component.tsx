@@ -22,6 +22,7 @@ import { Annonce } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import {
   getDiscussion,
+  getImageOfAnnonce,
   parseDate,
   toggleFavori,
 } from "../../service/annonce.service";
@@ -54,30 +55,15 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     openMessage: false,
   };
   const [state, setState] = useState(initialState);
-  const lastLike = useRef(annonce.favori);
+  const lastLike = useRef(annonce == null ? false : annonce.favori);
   const navigate = useNavigate();
-
-  // TODO: ALANA ITO
-  annonce.photos = [
-    {
-      url: "/images/voiture1.jpg",
-    },
-    {
-      url: "/images/mercedes5.jpg",
-    },
-    {
-      url: "/images/voiture2.jpg",
-    },
-    {
-      url: "/images/voiture1.jpg",
-    },
-  ];
 
   useEffect(() => {
     setState((state) => ({
       ...state,
       favori: props.annonce.favori,
     }));
+    // lastLike.current =
   }, [props]);
 
   useEffect(() => {
@@ -188,7 +174,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
   return (
     <>
       <div className="img-container">
-        {annonce.photos.length == 0 ? (
+        {annonce.photos == null || annonce.photos.length == 0 ? (
           "Aucune photo"
         ) : (
           <Carousel
@@ -199,7 +185,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
               `${current}/${total}`
             }
           >
-            {annonce.photos.map((p, index) => (
+            {getImageOfAnnonce(annonce).map((p, index) => (
               <div key={`img_${index}`}>
                 <img src={p.url} />
               </div>
