@@ -88,11 +88,3 @@ const MessageContainerRoot = (props: MessageContainerRootProps) => {
 };
 
 export default MessageContainerRoot;
-
-interface MessageContainerRootState {
-  messages: Message[];
-}
-
-const initialState: MessageContainerRootState = {
-  messages: [],
-};
