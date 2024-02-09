@@ -10,8 +10,6 @@ const LoginProtection = (props: LoginProtectionProps) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token);
-    console.log(window.location.href);
 
     if (
       !token &&

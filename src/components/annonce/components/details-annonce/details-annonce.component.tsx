@@ -90,7 +90,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     } else {
       setState((state) => ({
         ...state,
-        loadingDislike: true,
+        loadingLike: true,
       }));
     }
     toggleFavori(annonce.id)
@@ -112,6 +112,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             openSuccess: true,
             favori: !state.favori,
             loadingDislike: false,
+            loadingLike: false,
           }));
           lastLike.current = !lastLike.current;
         } else {
@@ -120,6 +121,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             errorMessage: response.err,
             openError: true,
             loadingDislike: false,
+            loadingLike: false,
           }));
         }
       })
@@ -142,6 +144,8 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
           ...state,
           errorMessage: errorMessage,
           openError: true,
+          loadingDislike: false,
+          loadingLike: false,
         }));
       });
   }, []);
