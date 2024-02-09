@@ -22,6 +22,7 @@ import { Annonce } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import {
   getDiscussion,
+  getImageOfAnnonce,
   parseDate,
   toggleFavori,
 } from "../../service/annonce.service";
@@ -39,6 +40,8 @@ interface DetailsAnnonceState {
   successMessage: string;
   favori: boolean;
   loadingLike: boolean;
+  showLike: boolean;
+  loadingDislike: boolean;
   openMessage: boolean;
 }
 
@@ -51,47 +54,45 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
     successMessage: "",
     favori: false,
     loadingLike: false,
+    showLike: false,
+    loadingDislike: false,
     openMessage: false,
   };
   const [state, setState] = useState(initialState);
-  const lastLike = useRef(annonce.favori);
+  const lastLike = useRef(annonce == null ? false : annonce.favori);
   const navigate = useNavigate();
-
-  // TODO: ALANA ITO
-  annonce.photos = [
-    {
-      url: "/images/voiture1.jpg",
-    },
-    {
-      url: "/images/mercedes5.jpg",
-    },
-    {
-      url: "/images/voiture2.jpg",
-    },
-    {
-      url: "/images/voiture1.jpg",
-    },
-  ];
 
   useEffect(() => {
     setState((state) => ({
       ...state,
       favori: props.annonce.favori,
     }));
+    // lastLike.current =
   }, [props]);
 
   useEffect(() => {
     setTimeout(() => {
       setState((state) => ({
         ...state,
-        loadingLike: false,
+        showLike: false,
       }));
     }, 1500);
-  }, [state.loadingLike]);
+  }, [state.showLike]);
 
   const onToggleLike = useCallback(() => {
     console.log("toggle ", lastLike.current);
 
+    if (lastLike.current == true) {
+      setState((state) => ({
+        ...state,
+        loadingDislike: true,
+      }));
+    } else {
+      setState((state) => ({
+        ...state,
+        loadingDislike: true,
+      }));
+    }
     toggleFavori(annonce.id)
       .then((res) => {
         console.log(res);
@@ -102,7 +103,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
           if (lastLike.current == false) {
             setState((state) => ({
               ...state,
-              loadingLike: true,
+              showLike: true,
             }));
           }
           setState((state) => ({
@@ -110,6 +111,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             successMessage: response.message,
             openSuccess: true,
             favori: !state.favori,
+            loadingDislike: false,
           }));
           lastLike.current = !lastLike.current;
         } else {
@@ -117,6 +119,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             ...state,
             errorMessage: response.err,
             openError: true,
+            loadingDislike: false,
           }));
         }
       })
@@ -188,7 +191,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
   return (
     <>
       <div className="img-container">
-        {annonce.photos.length == 0 ? (
+        {annonce.photos == null || annonce.photos.length == 0 ? (
           "Aucune photo"
         ) : (
           <Carousel
@@ -199,14 +202,14 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
               `${current}/${total}`
             }
           >
-            {annonce.photos.map((p, index) => (
+            {getImageOfAnnonce(annonce).map((p, index) => (
               <div key={`img_${index}`}>
                 <img src={p.url} />
               </div>
             ))}
           </Carousel>
         )}
-        <div className={`liking-gif ${state.loadingLike ? "action" : ""} `}>
+        <div className={`liking-gif ${state.showLike ? "action" : ""} `}>
           <img src="/images/hearts-heart.gif" alt="" />
         </div>
       </div>
@@ -250,12 +253,18 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
                   }
                   arrow
                 >
-                  <Checkbox
-                    icon={<FavoriteBorder fontSize="large" />}
-                    checkedIcon={<Favorite fontSize="large" />}
-                    onChange={onToggleLike}
-                    checked={state.favori}
-                  />
+                  <AppLoaderComponent
+                    loading={state.loadingLike || state.loadingDislike}
+                    width="25px"
+                    heigth="25px"
+                  >
+                    <Checkbox
+                      icon={<FavoriteBorder fontSize="large" />}
+                      checkedIcon={<Favorite fontSize="large" />}
+                      onChange={onToggleLike}
+                      checked={state.favori}
+                    />
+                  </AppLoaderComponent>
                 </Tooltip>
                 <Tooltip title="Contacter le vendeur" arrow>
                   <IconButton

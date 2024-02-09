@@ -77,12 +77,14 @@ const DetailsAnnonceRoot = () => {
         loading={state.loading}
         children={
           <>
-            <div className="details-annonce-wrapper">
-              <Title>{`Annonce ${state.annonce?.reference as string}`}</Title>
-              <div className="details-annonce">
-                <DetailsAnnonce annonce={state.annonce as Annonce} />
+            {state.annonce != null && (
+              <div className="details-annonce-wrapper">
+                <Title>{`Annonce ${state.annonce?.reference as string}`}</Title>
+                <div className="details-annonce">
+                  <DetailsAnnonce annonce={state.annonce as Annonce} />
+                </div>
               </div>
-            </div>
+            )}
           </>
         }
       />

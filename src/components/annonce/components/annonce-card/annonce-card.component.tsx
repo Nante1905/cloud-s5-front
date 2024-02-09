@@ -16,6 +16,7 @@ import { AnnonceGeneral } from "../../../../shared/types/Annonce";
 import { ApiResponse } from "../../../../shared/types/api/ApiResponse";
 import {
   getDiscussion,
+  getImageOfAnnonceGen,
   parseDate,
   toggleFavori,
 } from "../../service/annonce.service";
@@ -51,22 +52,6 @@ const AnnonceCard = (props: AnnonceCardProps) => {
   const lastFavori = useRef(annonce.favori);
   const [state, setState] = useState<AnnonceCardState>(initialState);
   const navigate = useNavigate();
-
-  // TODO: alana ito
-  annonce.photos = [
-    {
-      url: "/images/voiture1.jpg",
-    },
-    {
-      url: "/images/mercedes5.jpg",
-    },
-    {
-      url: "/images/voiture2.jpg",
-    },
-    {
-      url: "/images/voiture1.jpg",
-    },
-  ];
 
   const renderClassName = useCallback((note: number) => {
     if (note >= 7) {
@@ -190,7 +175,6 @@ const AnnonceCard = (props: AnnonceCardProps) => {
         >
           <Card className="annonce-card">
             <div className="annonce-images">
-              {/* <img src="/images/logo-fit.png" alt="" /> */}
               <Carousel
                 showArrows={false}
                 axis="horizontal"
@@ -199,72 +183,75 @@ const AnnonceCard = (props: AnnonceCardProps) => {
                   `${current}/${total}`
                 }
               >
-                {annonce.photos.map((p, index) => (
+                {getImageOfAnnonceGen(annonce).map((p, index) => (
                   <div key={`img_${index}`}>
                     <img src={p.url} />
                   </div>
                 ))}
               </Carousel>
             </div>
-
-            <div
-              className={`annonce-info ${!props.likeable ? "padding" : ""} `}
-              onClick={props.onClick}
-            >
-              {props.showStatus && (
-                <ChipStatusAnnonce status={annonce.status} />
-              )}
-              <h2 className="annonce-title light no-margin">
-                {annonce.marque.nom}: {annonce.modele.nom}
-              </h2>
-              <div className="utilisateur">
-                <p className="no-margin">
-                  {annonce.utilisateur.nom} {annonce.utilisateur.prenom}
-                </p>
-                <small>{parseDate(annonce.creation)}</small>
+            <div>
+              <div
+                className={`annonce-info ${!props.likeable ? "padding" : ""} `}
+                onClick={props.onClick}
+              >
+                {props.showStatus && (
+                  <ChipStatusAnnonce status={annonce.status} />
+                )}
+                <h2 className="annonce-title light no-margin">
+                  {annonce.marque.nom}: {annonce.modele.nom}
+                </h2>
+                <div className="utilisateur">
+                  <p className="no-margin">
+                    {annonce.utilisateur.nom} {annonce.utilisateur.prenom}
+                  </p>
+                  <small>{parseDate(annonce.creation)}</small>
+                </div>
+                <h3 className="no-margin">
+                  {annonce.prix.toLocaleString("fr")} MGA
+                </h3>
               </div>
-              <h3 className="no-margin">
-                {annonce.prix.toLocaleString("fr")} MGA
-              </h3>
-            </div>
-            <div className="favorite-icon">
-              <div className="flex">
-                <span>{numberFormatter.format(annonce.vues)}</span>
-                <Visibility className="icon" />
-              </div>
-              {/* TODO: rediriger vers discussion */}
-              {props.likeable && (
-                <>
-                  <Tooltip title="Contacter le vendeur" arrow>
-                    <IconButton
-                      onClick={() => goToChat(annonce.utilisateur.id as number)}
-                    >
-                      <AppLoaderComponent
-                        loading={state.openMessage}
-                        width="25px"
-                        heigth="25px"
+              <div className="favorite-icon">
+                <div className="flex">
+                  <span>{numberFormatter.format(annonce.vues)}</span>
+                  <Visibility className="icon" />
+                </div>
+                {/* TODO: rediriger vers discussion */}
+                {props.likeable && (
+                  <>
+                    <Tooltip title="Contacter le vendeur" arrow>
+                      <IconButton
+                        onClick={() =>
+                          goToChat(annonce.utilisateur.id as number)
+                        }
                       >
-                        <ChatBubbleRounded />
-                      </AppLoaderComponent>
-                    </IconButton>
-                  </Tooltip>
+                        <AppLoaderComponent
+                          loading={state.openMessage}
+                          width="25px"
+                          heigth="25px"
+                        >
+                          <ChatBubbleRounded />
+                        </AppLoaderComponent>
+                      </IconButton>
+                    </Tooltip>
 
-                  <Tooltip
-                    title={
-                      lastFavori.current
-                        ? "Supprimer de mes favoris"
-                        : "Mettre en favori"
-                    }
-                  >
-                    <Checkbox
-                      icon={<FavoriteBorder fontSize="large" />}
-                      checkedIcon={<Favorite fontSize="large" />}
-                      onChange={onToggleLike}
-                      checked={lastFavori.current}
-                    />
-                  </Tooltip>
-                </>
-              )}
+                    <Tooltip
+                      title={
+                        lastFavori.current
+                          ? "Supprimer de mes favoris"
+                          : "Mettre en favori"
+                      }
+                    >
+                      <Checkbox
+                        icon={<FavoriteBorder fontSize="large" />}
+                        checkedIcon={<Favorite fontSize="large" />}
+                        onChange={onToggleLike}
+                        checked={lastFavori.current}
+                      />
+                    </Tooltip>
+                  </>
+                )}
+              </div>
             </div>
           </Card>
 
