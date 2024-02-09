@@ -57,7 +57,7 @@ const LoginPage = () => {
         error: "Veuillez vous connecter pour continuer",
       }));
     }
-  });
+  }, []);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     console.log(state.form.password);

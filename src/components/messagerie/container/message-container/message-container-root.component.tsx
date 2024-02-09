@@ -20,7 +20,7 @@ interface MessageContainerRootProps {
 
 const MessageContainerRoot = (props: MessageContainerRootProps) => {
   const idUser = useMemo(() => {
-    return decodeToken().id;
+    return decodeToken()?.id;
   }, []);
   const messages = useRef<HTMLDivElement>(null);
   const end = useRef<HTMLDivElement>(null);
